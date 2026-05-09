@@ -6,13 +6,16 @@
 </head>
 <body>
     <?php include "include/header.php";?>
-    <section class="hero">
+    <section class="hero1">
         <div class="container custom-container-width">
             <div class="row">
-                <div class="col-lg-7 align-items-center section-padding">
+                <div class="col-lg-12 align-items-center section-padding">
                     <div class="hero-body" data-aos="fade-up">
-                        <h3 class="text-uppercase sub-header">Glorious International<span class="main_header main_clr sf-heavy"> Journal of Nursing Research</span></h3>
-                        Content coming soon............
+                        <h3 class="text-uppercase sub-header">About Journal
+                            <span class="main_header main_clr sf-heavy"> - Glorious International Journal of Nursing
+                                Research</span>
+                        </h3>
+                        <hr />
                     </div>
                 </div>
             </div>
