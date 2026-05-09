@@ -1,0 +1,36 @@
+<?php include "connection.php"; ?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <?php include "include/head.php"; ?>
+</head>
+
+<body>
+    <?php include "include/header.php"; ?>
+    <section class="hero">
+        <div class="container custom-container-width">
+            <div class="row">
+                <div class="col-lg-7 align-items-center section-padding">
+                    <div class="hero-body" data-aos="fade-up">
+                        <h1 class="text-uppercase sub-header">About <span
+                                class="main_header main_clr sf-heavy">Us</span></h1>
+                        <p class="mt-4 w-100 mw-50">Transforming Spaces with Expert Remodeling</p>
+                        <p>At DesMerveilles Custom Homes, we specialize in turning existing homes into beautiful, functional spaces that reflect our clients' unique lifestyles. With a dedication to quality and an eye for design, our remodeling services cover everything from modernizing kitchens and bathrooms to creating open-concept living areas and enhancing outdoor spaces.</p>
+                        <p>Attention to Detail, Every Step of the Way</p>
+                        <p>Our team, led by owners, works closely with you from concept to completion. With DesMerveilles Homes, you'll benefit from direct collaboration with our experienced team, ensuring a seamless process and personalized care at every stage of your remodel.</p>
+                        <p>Enhancing Your Home's Value and Comfort</p>
+                        <p>We understand that remodeling is about more than just updating spaces; it’s about enhancing your home's functionality, comfort, and value. Whether you're seeking to increase your living space, add energy-efficient features, or update your home’s style, we bring your vision to life with precision and quality craftsmanship.</p>
+                        <p>Your Vision, Perfectly Realized</p>
+                        <p>No matter the scale or scope of your remodel, we are here to turn your vision into a reality that you’ll love for years to come.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <?php include "components/whychooseus.php";?>
+    <?php include 'include/footer.php'; ?>
+    <?php include 'include/footerscript.php'; ?>
+</body>
+
+</html>

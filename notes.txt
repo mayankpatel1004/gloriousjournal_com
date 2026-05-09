@@ -1,0 +1,18 @@
+git add . && git commit -m "Updates" && git push origin main
+
+Payment Page URL : https://rzp.io/l/w9fQJq1
+Payment Page Google Form URL : https://forms.gle/soJhtdWtj7BufVLCA
+
+Remove Announcement and place Awards
+
+
+Glorious Foundation (To replace footer address).
+2nd Floor, Satnam Complex, Nr.Shreeji Hospital , Bodeli - 391135
+
+
+https://gloriousjournal.com/
+=============
+Current Issue
+Archive 
+
+Above 2 things database is required.

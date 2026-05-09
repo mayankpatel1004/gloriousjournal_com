@@ -1,0 +1,7 @@
+.w-90 {width:90%;}
+.w-80 {width:80%;}
+.float-left {float:left;}
+.float-right {float:right;}
+.mr-25{margin-right: 25%;}
+.nav-item:not(:last-child){margin-right:1rem;}
+header .navbar .nav-link{font-size: 17px;}
