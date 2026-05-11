@@ -26,10 +26,9 @@ Vadodara, Gujarat.</p>
                 <div class="footer-contact-us text-white">
                     <h3 class="main_header footer-title footer-border">Quick Links</h3>
                     <ul class="footer-list p-0 mb-0">
-                        <li><a class="footer-link text-white" href="<?php echo $url;?>">Events</a></li>
-                        <li><a class="footer-link text-white" href="<?php echo $url;?>privacy-policy.php">Privacy Policy</a></li>
-                        <li><a class="footer-link text-white" href="<?php echo $url;?>terms-conditions.php">Terms and Conditions</a></li>
-                        <li><a class="footer-link text-white" href="<?php echo $url;?>refund-cancellation.php">Refunds and Cancellation</a></li>
+                        <li><a class="footer-link text-white" href="<?php echo $url;?>copyright-policy.php">Copyright Policy</a></li>
+                        <li><a class="footer-link text-white" href="<?php echo $url;?>aim-scope-of-journal.php">Aim and Scope of Journal</a></li>
+                        <li><a class="footer-link text-white" href="<?php echo $url;?>current-issue-add.php">Add New Current Issue</a></li>
                     </ul>
                 </div>
             </div>

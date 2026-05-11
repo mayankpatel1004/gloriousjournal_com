@@ -55,6 +55,9 @@ if(isset($_POST['user_name']) && $_POST['user_name'] != ""){
                   <div class="mt-3">
                     <input class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" type="submit" name="submit" value="SIGN IN" />
                   </div>
+                  <div class="mt-3">
+                    <a href="<?php echo $url;?>" class="text-primary text-decoration-none">Back</a>
+                  </div>
                 </form>
               </div>
             </div>

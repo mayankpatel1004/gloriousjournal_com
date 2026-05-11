@@ -11,9 +11,8 @@
             <div class="row">
                 <div class="col-lg-12 align-items-center section-padding">
                     <div class="hero-body" data-aos="fade-up">
-                        <h3 class="text-uppercase sub-header">About Journal
-                            <span class="main_header main_clr sf-heavy"> - Glorious International Journal of Nursing
-                                Research</span>
+                        <h3 class="text-uppercase sub-header">Editorial Board Members
+                            <span class="main_header main_clr sf-heavy"> - <?php echo $tagline;?></span>
                         </h3>
                         <hr />
                     </div>
@@ -59,8 +58,8 @@
             }
 
             .editor-photo {
-                width: 110px;
-                height: auto;
+                width: auto;
+                height: 160px;
                 border-radius: 6px;
                 border: 1px solid #ddd;
             }

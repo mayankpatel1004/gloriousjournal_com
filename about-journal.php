@@ -13,8 +13,8 @@
             <div class="row">
                 <div class="col-lg-9 align-items-center section-padding">
                     <div class="hero-body" data-aos="fade-up">
-                        <h3 class="text-uppercase sub-header">Glorious International<span
-                                class="main_header main_clr sf-heavy"> Journal of Nursing Research</span></h3>
+                        <h3 class="text-uppercase sub-header">About Journal<span
+                                class="main_header main_clr sf-heavy"> <?php echo $tagline;?></span></h3>
                         <hr />
                         <div>
                             <p>Glorious International Journal of Nursing Research (GIJNR) is an international

@@ -16,3 +16,12 @@ Current Issue
 Archive 
 
 Above 2 things database is required.
+
+
+<?php echo $tagline;?>
+
+
+<a class="dropdown-item" href="<?php echo $url;?>manuscript-guidelines.html"></a>
+<a class="dropdown-item" href="<?php echo $url;?>conflict-of-interest.html"></a>
+<a class="dropdown-item" href="<?php echo $url;?>nomination-for-the-best-paper-award.html"></a>
+<a class="nav-link" href="<?php echo $url;?>indexing.html">Indexing</a>

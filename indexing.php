@@ -42,44 +42,12 @@
     }
 
     /* overlay with search icon — exactly matches the 'cz_grid_details' style */
-    .img-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        border-radius: 0.75rem;
-        backdrop-filter: blur(2px);
-    }
-
+    
     .gallery-link:hover .img-overlay {
         opacity: 1;
     }
 
-    .overlay-icon {
-        background: rgba(255, 255, 255, 0.9);
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #1e2a3e;
-        font-size: 1.5rem;
-        transition: all 0.2s;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    .overlay-icon i {
-        margin: 0;
-    }
-
+    
     /* optional subtle image border & consistent spacing */
     .gallery-col {
         margin-bottom: 28px;
@@ -87,8 +55,6 @@
 
     body {
         background: #f0f2f5;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-        padding: 2rem 1rem;
     }
 
     .gallery-header {
@@ -124,9 +90,8 @@
             <div class="row">
                 <div class="col-lg-12 align-items-center section-padding">
                     <div class="hero-body" data-aos="fade-up">
-                        <h3 class="text-uppercase sub-header">About Journal
-                            <span class="main_header main_clr sf-heavy"> - Glorious International Journal of Nursing
-                                Research</span>
+                        <h3 class="text-uppercase sub-header">Indexing
+                            <span class="main_header main_clr sf-heavy"> - <?php echo $tagline;?></span>
                         </h3>
                         <hr />
                     </div>
@@ -154,8 +119,6 @@
                                 rel="noopener">
                                 <img class="gallery-img" src="<?php echo $url;?>images/oie_ohNWGVMQ9Z90.png"
                                     alt="oie_ohNWGVMQ9Z90" title="oie_ohNWGVMQ9Z90" loading="lazy">
-                                <div class="img-overlay"><span class="overlay-icon"><i class="fas fa-search"></i></span>
-                                </div>
                             </a>
                         </div>
                     </div>
@@ -167,9 +130,6 @@
                                 target="_blank" rel="noopener">
                                 <img class="gallery-img" src="<?php echo $url;?>images/oie_13155425grODL6LA.png"
                                     alt="oie_13155425grODL6LA" title="oie_13155425grODL6LA" loading="lazy">
-                                <div class="img-overlay"><span class="overlay-icon"><i class="fas fa-search"></i></span>
-                                </div>
-                            </a>
                         </div>
                     </div>
 
@@ -180,8 +140,7 @@
                                 target="_blank" rel="noopener">
                                 <img class="gallery-img" src="<?php echo $url;?>images/imageedit_40_3889712099.jpg"
                                     alt="imageedit_40_3889712099" title="imageedit_40_3889712099" loading="lazy">
-                                <div class="img-overlay"><span class="overlay-icon"><i class="fas fa-search"></i></span>
-                                </div>
+                                
                             </a>
                         </div>
                     </div>
@@ -193,8 +152,7 @@
                                 target="_blank" rel="noopener">
                                 <img class="gallery-img" src="<?php echo $url;?>images/imageedit_34_6497663264.jpg"
                                     alt="imageedit_34_6497663264" title="imageedit_34_6497663264" loading="lazy">
-                                <div class="img-overlay"><span class="overlay-icon"><i class="fas fa-search"></i></span>
-                                </div>
+                                
                             </a>
                         </div>
                     </div>
@@ -206,8 +164,7 @@
                                 target="_blank" rel="noopener">
                                 <img class="gallery-img" src="<?php echo $url;?>images/imageedit_28_6709026392.jpg"
                                     alt="imageedit_28_6709026392" title="imageedit_28_6709026392" loading="lazy">
-                                <div class="img-overlay"><span class="overlay-icon"><i class="fas fa-search"></i></span>
-                                </div>
+                                
                             </a>
                         </div>
                     </div>
@@ -219,8 +176,7 @@
                                 target="_blank" rel="noopener">
                                 <img class="gallery-img" src="<?php echo $url;?>images/imageedit_25_5784384873.png"
                                     alt="imageedit_25_5784384873" title="imageedit_25_5784384873" loading="lazy">
-                                <div class="img-overlay"><span class="overlay-icon"><i class="fas fa-search"></i></span>
-                                </div>
+                                
                             </a>
                         </div>
                     </div>
@@ -232,8 +188,7 @@
                                 target="_blank" rel="noopener">
                                 <img class="gallery-img" src="<?php echo $url;?>images/imageedit_20_2140536508.jpg"
                                     alt="imageedit_20_2140536508" title="imageedit_20_2140536508" loading="lazy">
-                                <div class="img-overlay"><span class="overlay-icon"><i class="fas fa-search"></i></span>
-                                </div>
+                                
                             </a>
                         </div>
                     </div>
@@ -245,8 +200,7 @@
                                 target="_blank" rel="noopener">
                                 <img class="gallery-img" src="<?php echo $url;?>images/imageedit_13_5696875463.png"
                                     alt="imageedit_13_5696875463" title="imageedit_13_5696875463" loading="lazy">
-                                <div class="img-overlay"><span class="overlay-icon"><i class="fas fa-search"></i></span>
-                                </div>
+                                
                             </a>
                         </div>
                     </div>
@@ -258,8 +212,7 @@
                                 target="_blank" rel="noopener">
                                 <img class="gallery-img" src="<?php echo $url;?>images/imageedit_4_5263597396.jpg"
                                     alt="imageedit_4_5263597396" title="imageedit_4_5263597396" loading="lazy">
-                                <div class="img-overlay"><span class="overlay-icon"><i class="fas fa-search"></i></span>
-                                </div>
+                                
                             </a>
                         </div>
                     </div>
@@ -271,8 +224,7 @@
                                 target="_blank" rel="noopener">
                                 <img class="gallery-img" src="<?php echo $url;?>images/imageedit_45_3479520133.png"
                                     alt="imageedit_45_3479520133" title="imageedit_45_3479520133" loading="lazy">
-                                <div class="img-overlay"><span class="overlay-icon"><i class="fas fa-search"></i></span>
-                                </div>
+                                
                             </a>
                         </div>
                     </div>
@@ -284,8 +236,7 @@
                                 target="_blank" rel="noopener">
                                 <img class="gallery-img" src="<?php echo $url;?>images/imageedit_44_3641127356.jpg"
                                     alt="imageedit_44_3641127356" title="imageedit_44_3641127356" loading="lazy">
-                                <div class="img-overlay"><span class="overlay-icon"><i class="fas fa-search"></i></span>
-                                </div>
+                                
                             </a>
                         </div>
                     </div>

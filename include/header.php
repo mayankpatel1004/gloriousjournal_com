@@ -78,7 +78,7 @@
                             </ul>
                         </li>
 
-
+                        
                         <li class="nav-item dropdown">
                             <a class="nav-link" href="results.html" data-bs-toggle="dropdown" role="button" id="navbarDropdown">Editorial Policies <i class="fa fa-chevron-down"></i></a>
                             <ul class="dropdown-menu nav-list py-0 dropdown-menu-center" aria-labelledby="navbarDropdown">
@@ -91,18 +91,20 @@
                                 <li>
                                     <a class="dropdown-item" href="<?php echo $url;?>peer-review-process.html">Peer Review Process</a>
                                 </li>
+                                
                                 <li>
                                     <a class="dropdown-item" href="<?php echo $url;?>policy-on-plagiarism.html">Policy On Plagiarism</a>
                                 </li>
+                                
                                 <li>
                                     <a class="dropdown-item" href="<?php echo $url;?>open-access-policy.html">Open Access Policy</a>
                                 </li>
+                                
                                 <li>
                                     <a class="dropdown-item" href="<?php echo $url;?>copyright-policy.html">Copyright Policy</a>
                                 </li>
                             </ul>
                         </li>
-
                         <li class="nav-item dropdown">
                             <a class="nav-link" href="results.html" data-bs-toggle="dropdown" role="button" id="navbarDropdown">Author Instruction <i class="fa fa-chevron-down"></i></a>
                             <ul class="dropdown-menu nav-list py-0 dropdown-menu-center" aria-labelledby="navbarDropdown">

@@ -1,21 +1,16 @@
 <?php include "connection.php";
-if(!isset($_SESSION['user_name'])){
-    header('Location:login.html');
-}
 $date = date('Y-m-d');
 
-$sqlGetRecentRecords = "SELECT * FROM current_issue ORDER BY id DESC LIMIT 0,10";
+$sqlGetRecentRecords = "SELECT * FROM current_issue WHERE volume = (SELECT MAX(volume) FROM current_issue)";
 $stmt = $conn->prepare($sqlGetRecentRecords);
 $stmt->execute();
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <?php include "include/head.php";?>
 </head>
-
 <body>
     <?php include "include/header.php";?>
     <section class="hero1">
@@ -24,7 +19,7 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <div class="col-lg-12 align-items-center section-padding">
                     <div class="hero-body" data-aos="fade-up">
                         <h3 class="text-uppercase sub-header">Current Issue
-                            <span class="main_header main_clr sf-heavy"> - <a href="<?php echo $url;?>current-issue-add.php" class="text-decoration-none">Add New Current Issue</a></span>
+                            <span class="main_header main_clr sf-heavy"> - <?php echo $tagline;?></span>
                         </h3>
                         <hr />
                     </div>
@@ -36,7 +31,7 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <?php
                         if($result && $result != false){
                             ?>
-                            <h2>List of Current Issues</h2>
+                            <div><center class="text-warning">VOLUME - <?php echo $result[0]['volume'];?> & ISSUE - <?php echo $result[0]['issue'];?></center></div>
                             <table class="table table-striped">
                                 <tr>
                                     <th>Post Date</th>
@@ -51,7 +46,28 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 ?>
                                 <tr>
                                     <td><?php echo date('d/m/Y',strtotime($data['publish_date']));?></td>
-                                    <td><?php echo $data['title'];?></td>
+                                    <td>
+                                        <div onclick="openPopup('<?php echo $data['id'];?>')" style="cursor:pointer;text-decoration:underline;"><?php echo $data['title'];?></div>
+                                        <div class="overlay" id="overlay<?php echo $data['id'];?>"></div>
+                                        <div class="popup" id="popup<?php echo $data['id'];?>">
+                                            <span class="close-btn" onclick="closePopup(<?php echo $data['id'];?>)">×</span>
+                                            
+                                            <p class="text-primary"><?php echo $data['title'];?></p>
+                                            <p><span class="text-warning">Author : </span><?php echo $data['author_description'];?></p>
+                                            <p><span class="text-warning">Volume : </span><?php echo $data['volume'];?></p>
+                                            <p><span class="text-warning">Country : </span><?php echo $data['country'];?></p>
+                                            <p><span class="text-warning">DOI No. : </span><?php echo $data['doi_no'];?></p>
+                                            <p><span class="text-warning">DOI Link : </span><?php echo $data['dot_link'];?></p>
+                                            <p><b class="text-warning">Abstract</b></p>
+                                            <p><?php echo $data['abstract'];?></p>
+                                            <p><b class="text-warning">Keywords</b></p>
+                                            <p><?php echo $data['keywords'];?></p>
+                                            <?php if($data['attachment'] != ""){?>
+                                            <p><b class="text-warning">Click Here to Download Full Article:</b></p>
+                                            <a class="text-secondary" href="<?php echo $url."uploads/".$data['attachment'];?>" target="_blank">View</a>
+                                            <?php }?>
+                                        </div>
+                                        </td>
                                     <td><?php echo $data['author_description'];?></td>
                                     <td><?php echo $data['volume'];?></td>
                                     <td><?php echo $data['country'];?></td>
@@ -71,7 +87,16 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </div>
     </section>
-
+    <script type="text/javascript">
+        function openPopup(id) {
+            document.getElementById("popup"+id).style.display = "block";
+            document.getElementById("overlay"+id).style.display = "block";
+        }
+        function closePopup(id) {
+            document.getElementById("popup"+id).style.display = "none";
+            document.getElementById("overlay"+id).style.display = "none";
+        }
+    </script>
     <?php include 'include/footer.php';?>
     <?php include 'include/footerscript.php';?>
 </body>
