@@ -7,7 +7,7 @@
                     <div class="text-center">
                         <h5 class="text-danger">Estd Year - 2023</h5>
                     </div>
-                    <a href="#" class="btn btn-primary">Submit Menuscript</a>
+                    <a href="<?php echo $url;?>online-submission.php" class="btn btn-primary">Submit Menuscript</a>
             </div>
         </div>
     </div>
