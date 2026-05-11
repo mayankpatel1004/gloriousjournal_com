@@ -163,7 +163,7 @@ require_once 'phpmailer/class.smtp.php';
                 $mail->AddAttachment($attachment);
             }
             $mail->Send();
-            header('Location:' . $url . 'online-submission.php?success=1');
+            header('Location:' . $url . 'online-submission-success.php?success=1');
             exit;
 
         } catch (phpmailerException $e) {
