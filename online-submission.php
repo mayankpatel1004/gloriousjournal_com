@@ -212,7 +212,7 @@ require_once 'phpmailer/class.smtp.php';
                                                         <label>Author's Full Name <span
                                                                 class="text-danger">*</span></label>
                                                         <input type="text" name="author_name" class="form-control"
-                                                        value="mayank"
+                                                        value=""
                                                             required>
                                                     </div>
                                                 </div>
@@ -222,7 +222,7 @@ require_once 'phpmailer/class.smtp.php';
                                                     <div class="form-group">
                                                         <label>Email Address <span class="text-danger">*</span></label>
                                                         <input type="email" name="email"
-                                                        value="mayankp@yopmail.com" class="form-control" required>
+                                                        value="" class="form-control" required>
                                                     </div>
                                                 </div>
 
@@ -231,7 +231,7 @@ require_once 'phpmailer/class.smtp.php';
                                                     <div class="form-group">
                                                         <label>Contact No. <span class="text-danger">*</span></label>
                                                         <input type="text" name="contact_no" class="form-control"
-                                                        value="9898989898"
+                                                        value=""
                                                             required>
                                                     </div>
                                                 </div>
@@ -242,7 +242,7 @@ require_once 'phpmailer/class.smtp.php';
                                                         <label>Institute/College <span
                                                                 class="text-danger">*</span></label>
                                                         <input type="text" name="institute" 
-                                                        value="test inst." class="form-control"
+                                                        value="" class="form-control"
                                                             required>
                                                     </div>
                                                 </div>
@@ -252,7 +252,7 @@ require_once 'phpmailer/class.smtp.php';
                                                     <div class="form-group">
                                                         <label>Country <span class="text-danger">*</span></label>
                                                         <input type="text" name="country" 
-                                                        value="IN" class="form-control" required>
+                                                        value="" class="form-control" required>
                                                     </div>
                                                 </div>
 
@@ -262,7 +262,7 @@ require_once 'phpmailer/class.smtp.php';
                                                         <label>Co-authors Name <span
                                                                 class="text-danger">*</span></label>
                                                         <input type="text" name="co_authors" class="form-control"
-                                                        value="author"
+                                                        value=""
                                                             required>
                                                     </div>
                                                 </div>
@@ -274,7 +274,7 @@ require_once 'phpmailer/class.smtp.php';
                                                                 class="text-danger">*</span></label>
                                                         <textarea name="manuscript_title" 
                                                         class="form-control" rows="3"
-                                                            required>mstitle</textarea>
+                                                            required></textarea>
                                                     </div>
                                                 </div>
 
@@ -283,15 +283,9 @@ require_once 'phpmailer/class.smtp.php';
                                                     <div class="form-group">
                                                         <label>
                                                             Upload your Manuscript
-                                                            <span class="text-danger">*</span>
                                                         </label>
-
                                                         <input type="file" name="manuscript_file"
-                                                            class="form-control-file">
-
-                                                        <small class="text-muted">
-                                                            Attach your file only in Word format (.doc / .docx)
-                                                        </small>
+                                                            class="form-control-file" />
                                                     </div>
                                                 </div>
 
@@ -300,7 +294,6 @@ require_once 'phpmailer/class.smtp.php';
                                                     <div class="form-group form-check">
                                                         <input type="checkbox" class="form-check-input"
                                                             id="copyrightCheck" required>
-
                                                         <label class="form-check-label" for="copyrightCheck">
                                                             I/we agree to all terms of the Copyright and declare that
                                                             the article is original,
