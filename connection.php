@@ -3,7 +3,7 @@ session_start();
 ini_set("display_errors",1);
 $website_name = "GIJNR";
 $default_meta_title = "Home | ".$website_name;
-$default_meta_description = "Default Meta Description | ".$website_name;;
+$default_meta_description = "Default Meta Description | ".$website_name;
 $website_type = "Organization";
 $tagline = "Journal of Nursing Research";
 $url = "http://localhost/gloriousjournal_com/";

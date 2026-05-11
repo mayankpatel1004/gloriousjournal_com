@@ -8,7 +8,7 @@ require_once 'phpmailer/class.smtp.php';
 
         // Form Data
         $author_name      = $_POST['author_name'];
-        $email            = $_POST['email'];
+        $email_form            = $_POST['email'];
         $contact_no       = $_POST['contact_no'];
         $institute        = $_POST['institute'];
         $country          = $_POST['country'];
@@ -63,7 +63,7 @@ require_once 'phpmailer/class.smtp.php';
 
         $stmt->execute([
             ':author_name'      => $author_name,
-            ':email'            => $email,
+            ':email'            => $email_form,
             ':contact_no'       => $contact_no,
             ':institute'        => $institute,
             ':country'          => $country,
@@ -84,9 +84,9 @@ require_once 'phpmailer/class.smtp.php';
         }
 
             $admin_email   = "mayank.patel104@gmail.com";
-            $website_name  = "Glorious";
+            $website_name  = "Glorious Journal";
 
-            $subject = "New Manuscript Submission";
+            $subject = "New Manuscript Submission By ".$author_name;
 
             $message = '
             <h2>New Manuscript Submission</h2>
@@ -99,7 +99,7 @@ require_once 'phpmailer/class.smtp.php';
 
                 <tr>
                     <td><strong>Email</strong></td>
-                    <td>'.$email.'</td>
+                    <td>'.$email_form.'</td>
                 </tr>
 
                 <tr>
@@ -150,10 +150,10 @@ require_once 'phpmailer/class.smtp.php';
 
             // Sender & Receiver
             $mail->setFrom($smtp_user, $website_name);
-            $mail->addAddress($admin_email);
+            $mail->addAddress($email);
 
             // Reply To
-            $mail->AddReplyTo($email, $author_name);
+            //$mail->AddReplyTo($email, $author_name);
 
             // Email Content
             $mail->isHTML(true);
