@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 11, 2026 at 02:22 PM
+-- Generation Time: May 11, 2026 at 03:37 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -68,6 +68,43 @@ INSERT INTO `current_issue` (`id`, `publish_date`, `title`, `author_description`
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `manuscript_submissions`
+--
+
+CREATE TABLE `manuscript_submissions` (
+  `id` int(11) NOT NULL,
+  `author_name` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `contact_no` varchar(50) DEFAULT NULL,
+  `institute` varchar(255) DEFAULT NULL,
+  `country` varchar(100) DEFAULT NULL,
+  `co_authors` text DEFAULT NULL,
+  `manuscript_title` text DEFAULT NULL,
+  `manuscript_file` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `manuscript_submissions`
+--
+
+INSERT INTO `manuscript_submissions` (`id`, `author_name`, `email`, `contact_no`, `institute`, `country`, `co_authors`, `manuscript_title`, `manuscript_file`, `created_at`) VALUES
+(1, 'mayank', 'mayankp@yopmail.com', '9898989898', 'test inst.', 'IN', 'author', 'mstitle', '1778505423_website draft.docx', '2026-05-11 13:17:03'),
+(2, 'mayank', 'mayankp@yopmail.com', '9898989898', 'test inst.', 'IN', 'author', 'mstitle', '1778505995_website draft.docx', '2026-05-11 13:26:35'),
+(3, 'mayank', 'mayankp@yopmail.com', '9898989898', 'test inst.', 'IN', 'author', 'mstitle', '1778506040_website draft.docx', '2026-05-11 13:27:20'),
+(4, 'mayank', 'mayankp@yopmail.com', '9898989898', 'test inst.', 'IN', 'author', 'mstitle', '1778506140_', '2026-05-11 13:29:00'),
+(5, 'mayank', 'mayankp@yopmail.com', '9898989898', 'test inst.', 'IN', 'author', 'mstitle', '', '2026-05-11 13:30:50'),
+(6, 'mayank', 'mayankp@yopmail.com', '9898989898', 'test inst.', 'IN', 'author', 'mstitle', '', '2026-05-11 13:32:08'),
+(7, 'mayank', 'mayankp@yopmail.com', '9898989898', 'test inst.', 'IN', 'author', 'mstitle', '', '2026-05-11 13:33:09'),
+(8, 'mayank', 'mayankp@yopmail.com', '9898989898', 'test inst.', 'IN', 'author', 'mstitle', '', '2026-05-11 13:33:29'),
+(9, 'mayank', 'mayankp@yopmail.com', '9898989898', 'test inst.', 'IN', 'author', 'mstitle', '', '2026-05-11 13:34:42'),
+(10, 'mayank', 'mayankp@yopmail.com', '9898989898', 'test inst.', 'IN', 'author', 'mstitle', '', '2026-05-11 13:35:03'),
+(11, 'mayank', 'mayankp@yopmail.com', '9898989898', 'test inst.', 'IN', 'author', 'mstitle', '', '2026-05-11 13:35:57'),
+(12, 'mayank', 'mayankp@yopmail.com', '9898989898', 'test inst.', 'IN', 'author', 'mstitle', '', '2026-05-11 13:37:15');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `user`
 --
 
@@ -97,6 +134,12 @@ ALTER TABLE `current_issue`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `manuscript_submissions`
+--
+ALTER TABLE `manuscript_submissions`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
@@ -111,6 +154,12 @@ ALTER TABLE `user`
 --
 ALTER TABLE `current_issue`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `manuscript_submissions`
+--
+ALTER TABLE `manuscript_submissions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `user`
