@@ -50,11 +50,11 @@
                     <table class="table mb-0">
                         <tbody>
                             <tr>
-                                <td class="pl-0"><a href="#" class="text-decoration-none text-secondary">Online
+                                <td class="pl-0"><a href="<?php echo $url;?>online-submission.php" class="text-decoration-none text-secondary">Online
                                         Submission</a></td>
                             </tr>
                             <tr>
-                                <td class="pl-0"><a href="#" class="text-decoration-none text-secondary">Offline
+                                <td class="pl-0"><a href="<?php echo $url;?>offline-submission.php" class="text-decoration-none text-secondary">Offline
                                         Submission</a></td>
                             </tr>
                         </tbody>
