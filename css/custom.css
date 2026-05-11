@@ -5,3 +5,4 @@
 .mr-25{margin-right: 25%;}
 .nav-item:not(:last-child){margin-right:1rem;}
 header .navbar .nav-link{font-size: 17px;}
+.sidebar-wrapper ul li a {color:#FFF !important;text-decoration: none; padding:2px;}

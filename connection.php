@@ -1,4 +1,5 @@
 <?php 
+session_start();
 $website_name = "GIJNR";
 $default_meta_title = "Home | ".$website_name;
 $default_meta_description = "Default Meta Description | ".$website_name;;
@@ -17,6 +18,11 @@ $zipcode = "390001";
 $google_site_verification = "lFxcTAQVnM-yZq-yQAP6jKb0TVkysMWH9Amu5zxJt-Q";
 $logo_url = $url."images/logo.png";
 $images_url = $url."images/";
+
+$host = "localhost";
+$dbname = "gloriousjournal_com";
+$username = "developer";
+$password = "Online@112018";
 
 $admin_email = "demo";
 $smtp_host = "smtp.hostinger.com";
