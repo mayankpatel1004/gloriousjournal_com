@@ -17,6 +17,7 @@
                                 class="main_header main_clr sf-heavy"> <?php echo $tagline;?></span></h3>
                         <hr />
                         <div>
+                            <br /><br /><br />
                             <h4 class="text-danger">Your form successfully submitted to administrator. Administrator will contact you soon.</h4>
                            
                         </div>
