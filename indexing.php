@@ -129,7 +129,8 @@
                             <a class="gallery-link" href="<?php echo $url;?>images/oie_13155425grODL6LA.png"
                                 target="_blank" rel="noopener">
                                 <img class="gallery-img" src="<?php echo $url;?>images/oie_13155425grODL6LA.png"
-                                    alt="oie_13155425grODL6LA" title="oie_13155425grODL6LA" loading="lazy">
+                                    alt="oie_13155425grODL6LA" title="oie_13155425grODL6LA" loading="lazy" />
+                            </a>
                         </div>
                     </div>
 
@@ -140,7 +141,6 @@
                                 target="_blank" rel="noopener">
                                 <img class="gallery-img" src="<?php echo $url;?>images/imageedit_40_3889712099.jpg"
                                     alt="imageedit_40_3889712099" title="imageedit_40_3889712099" loading="lazy">
-                                
                             </a>
                         </div>
                     </div>
