@@ -40,4 +40,11 @@ $twitter_url = "https://www.twitter.com/";
 $linkedin_url = "https://www.linkedin.com/";
 $youtube_url = "";
 $instagram_url = "";
+
+try {
+    $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch(PDOException $e) {
+    echo "Connection failed: " . $e->getMessage();
+}
 ?>

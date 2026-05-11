@@ -1,12 +1,7 @@
 <?php
 include 'connection.php';
 $error = '';
-try {
-    $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
-    echo "Connection failed: " . $e->getMessage();
-}
+
 if(isset($_POST['user_name']) && $_POST['user_name'] != ""){
   $user_name = $_POST['user_name'];
   $password = base64_encode($_POST['password']);

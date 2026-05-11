@@ -1,4 +1,14 @@
-<?php include "connection.php";?>
+<?php include "connection.php";
+if(!isset($_SESSION['user_name'])){
+    header('Location:login.html');
+}
+$date = date('Y-m-d');
+
+$sqlGetRecentRecords = "SELECT * FROM current_issue ORDER BY id DESC LIMIT 0,10";
+$stmt = $conn->prepare($sqlGetRecentRecords);
+$stmt->execute();
+$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,43 +24,46 @@
                 <div class="col-lg-12 align-items-center section-padding">
                     <div class="hero-body" data-aos="fade-up">
                         <h3 class="text-uppercase sub-header">Current Issue
-                            <span class="main_header main_clr sf-heavy"> - Glorious International Journal of Nursing
-                                Research</span>
+                            <span class="main_header main_clr sf-heavy"> - <a href="<?php echo $url;?>current-issue-add.php" class="text-decoration-none">Add New Current Issue</a></span>
                         </h3>
                         <hr />
                     </div>
                 </div>
             </div>
             <div class="container">
-
                 <div class="row">
                     <div class="col-12">
-
-                        <p class="text-justify">
-                            Glorious International Nursing Research and Academic (GINRA) Foundation ® is one of the
-                            international, non-profitable professional bodies, registered under the Ministry of
-                            Corporate Affairs, Government of India under Section 8 of the Companies Act, 2013. GINRA
-                            Foundation is a paramount body that acts to bring revolution and sustainable development in
-                            the field of Nursing.
-                        </p>
-
-                        <p class="text-justify">
-                            A team of eminent teachers, educationists, and philanthropists have collectively established
-                            GINRA Foundation in 2021 with the aim to promote Nursing research and academically support
-                            the Nursing fraternity by collaborating with eminent professionals globally. The foundation
-                            also provides a platform for professional leaders, universities, and organizational
-                            associations to connect with each other with a mission to develop the profession. GINRA
-                            Foundation also engages in various social service activities towards unity development.
-                        </p>
-
-                        <p class="text-justify">
-                            GINRA Foundation carries out various activities related to the development of academic
-                            excellence through webinars, CNEs, seminars, conferences, and research grants for suitable
-                            research proposals. The foundation intends to publish journals, e-books, e-magazines, and
-                            e-contents. The foundation motivates nurse researchers, academicians, and nurse
-                            practitioners by offering degrees, short-term courses, awards, and recognitions. It is also
-                            involved in various social welfare activities.
-                        </p>
+                        <?php
+                        if($result && $result != false){
+                            ?>
+                            <h2>List of Current Issues</h2>
+                            <table class="table table-striped">
+                                <tr>
+                                    <th>Post Date</th>
+                                    <th>Post Title</th>
+                                    <th>Author Name</th>
+                                    <th>Volume</th>
+                                    <th>Country</th>
+                                    <th>Dot Link</th>
+                                </tr>
+                            <?php
+                            foreach($result as $data){
+                                ?>
+                                <tr>
+                                    <td><?php echo date('d/m/Y',strtotime($data['publish_date']));?></td>
+                                    <td><?php echo $data['title'];?></td>
+                                    <td><?php echo $data['author_description'];?></td>
+                                    <td><?php echo $data['volume'];?></td>
+                                    <td><?php echo $data['country'];?></td>
+                                    <td><?php echo $data['dot_link'];?></td>
+                                </tr>
+                                <?php
+                            }
+                            ?>
+                            </table>
+                            <?php
+                        }
+                        ?>
 
                     </div>
                 </div>
