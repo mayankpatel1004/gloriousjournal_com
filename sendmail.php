@@ -1,5 +1,8 @@
 <?php
-require_once 'phpmailer/PHPMailerAutoload.php';
+ini_set('display_errors',1);
+//require_once 'phpmailer/PHPMailerAutoload.php';
+require_once 'phpmailer/class.phpmailer.php';
+require_once 'phpmailer/class.smtp.php';
 include "connection.php";
 $message = "";
 $name = $_POST['name'];
