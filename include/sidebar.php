@@ -2,10 +2,10 @@
         <div class="card">
             <div class="card-body text-center">
                     <div class="text-center">
-                        <h5 class="text-danger">Impact Factor - 2.3</h5>
+                        <h5 class="text-secondary">Impact Factor - 2.3</h5>
                     </div>
                     <div class="text-center">
-                        <h5 class="text-danger">Estd Year - 2023</h5>
+                        <h5 class="text-secondary">Estd Year - 2023</h5>
                     </div>
                     <a href="<?php echo $url;?>online-submission.php" class="btn btn-primary">Submit Menuscript</a>
             </div>

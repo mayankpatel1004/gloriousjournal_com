@@ -12,7 +12,7 @@
                 <div class="col-lg-12 align-items-center section-padding">
                     <div class="hero-body" data-aos="fade-up">
                         <h3 class="text-uppercase sub-header">Policy On Plagiarism
-                            <span class="main_header main_clr sf-heavy"> - <?php echo $tagline;?></span>
+                            <span class="main_header main_clr sf-heavy"> </span>
                         </h3>
                         <hr />
                     </div>

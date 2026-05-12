@@ -26,7 +26,7 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="row">
                 <div class="col-lg-12 align-items-center section-padding">
                     <div class="hero-body" data-aos="fade-up">
-                        <h3 class="text-uppercase sub-header">Archive<span class="main_header main_clr sf-heavy"> - <?php echo $tagline;?></span>
+                        <h3 class="text-uppercase sub-header">Archive<span class="main_header main_clr sf-heavy"> </span>
                         </h3>
                         <hr />
                     </div>

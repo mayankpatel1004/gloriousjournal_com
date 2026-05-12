@@ -189,7 +189,7 @@ require_once 'phpmailer/class.smtp.php';
                 <div class="col-lg-9 align-items-center section-padding">
                     <div class="hero-body" data-aos="fade-up">
                         <h3 class="text-uppercase sub-header">Online Submission<span
-                                class="main_header main_clr sf-heavy"> <?php echo $tagline;?></span></h3>
+                                class="main_header main_clr sf-heavy"></span></h3>
                         <hr />
                         <div>
                             <p>Submit Your Manuscript Online Via Below Form</p>
