@@ -5,10 +5,8 @@ Payment Page Google Form URL : https://forms.gle/soJhtdWtj7BufVLCA
 
 Remove Announcement and place Awards
 
-
 Glorious Foundation (To replace footer address).
 2nd Floor, Satnam Complex, Nr.Shreeji Hospital , Bodeli - 391135
-
 
 https://gloriousjournal.com/
 =============
@@ -17,7 +15,6 @@ Archive
 
 Above 2 things database is required.
 
-
 <?php echo $tagline;?>
 
 
@@ -25,3 +22,5 @@ Above 2 things database is required.
 <a class="dropdown-item" href="<?php echo $url;?>conflict-of-interest.html"></a>
 <a class="dropdown-item" href="<?php echo $url;?>nomination-for-the-best-paper-award.html"></a>
 <a class="nav-link" href="<?php echo $url;?>indexing.html">Indexing</a>
+
+
