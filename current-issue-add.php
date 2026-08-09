@@ -189,14 +189,11 @@ if(isset($_POST['title']) && $_POST['title'] != ""){
                     <h2>List of Current Issues</h2>
                     <table class="table table-striped">
                         <tr>
-                            <th>Title</th>
-                            <th>Author</th>
-                            <th>Volume</th>
-                            <th>Issue</th>
+                            <th>Title / Author / DOI No</th>
+                            <th>Vol. / Issue</th>
                             <th>Country</th>
-                            <th>DOI No</th>
                             <th>DOI Link</th>
-                            <th>Keywords</th>
+                            <th style="width:15%;">Keywords</th>
                             <th>Abstracts</th>
                             <th>Attachment</th>
                             <th>Published</th>
@@ -206,12 +203,9 @@ if(isset($_POST['title']) && $_POST['title'] != ""){
                     foreach($result as $data){
                         ?>
                         <tr>
-                            <td><?php echo $data['title'];?></td>
-                            <td><?php echo $data['author_description'];?></td>
-                            <td><?php echo $data['volume'];?></td>
-                            <td><?php echo $data['issue'];?></td>
+                            <td><?php echo $data['title'];?><br /><span class="text-info"><?php echo $data['author_description'];?></span><br /><span class="text-warning"><?php echo $data['doi_no'];?></span></td>
+                            <td><?php echo $data['volume'];?>/<?php echo $data['issue'];?></td>
                             <td><?php echo $data['country'];?></td>
-                            <td><?php echo $data['doi_no'];?></td>
                             <td><?php echo $data['dot_link'];?></td>
                             <td><?php echo $data['keywords'];?></td>
                             <td>
