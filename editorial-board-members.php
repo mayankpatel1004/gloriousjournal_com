@@ -159,31 +159,7 @@
 
                             <tbody>
 
-                                <!-- Row 1 -->
-                                <tr>
-                                    <td>
-                                        <div class="editor-name">
-                                            Dr. Mridula Saikia Khanikor
-                                        </div>
-
-                                        <span class="editor-designation">
-                                            Vice-Chancellor
-                                        </span>
-                                    </td>
-
-                                    <td>
-                                        <strong>Company/Institute:</strong>
-                                        Indira Gandhi Technical and Medical Sciences University<br>
-
-                                        SSB Gate, Ziro, 791120<br>
-                                        Arunachal Pradesh
-                                    </td>
-
-                                    <td class="text-center">
-                                        <img src="<?php echo $site_url;?>images/1-1.jpg" class="img-fluid editor-photo"
-                                            alt="">
-                                    </td>
-                                </tr>
+                                
 
                                 <!-- Row 2 -->
                                 <tr>
