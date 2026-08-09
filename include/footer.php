@@ -8,7 +8,7 @@
                     <p class="main_header text-uppercase"></p>
                     <p><b><?php echo $website_name;?></b> <b>Dr. Ravindra HN</b>, MSc (N), MA (Socio), M. Phil (HC & HA), Ph.D. (N).
 Glorious International Journal Of Nursing Research (GIJNR)<br />
-Professor and Principal <br />- Parul Institute of Nursing, Parul University<br />
+Professor and Principal <br />
 Vadodara, Gujarat.</p>
                 </div>
             </div>
