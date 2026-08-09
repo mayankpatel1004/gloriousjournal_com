@@ -83,7 +83,7 @@ require_once 'phpmailer/class.smtp.php';
             $attachment = $upload_path;
         }
 
-            $admin_email   = "mayank.patel104@gmail.com";
+            $admin_email   = "editorgloriousjournal@gmail.com";
             $website_name  = "Glorious Journal";
 
             $subject = "New Manuscript Submission By ".$author_name;
