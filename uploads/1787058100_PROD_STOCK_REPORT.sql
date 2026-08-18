@@ -1,0 +1,117 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: localhost
+-- Generation Time: Aug 18, 2026 at 12:38 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `emrdjrxwHg`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `PROD_STOCK_REPORT`
+--
+
+CREATE TABLE `PROD_STOCK_REPORT` (
+  `ID` bigint(20) NOT NULL,
+  `COMPANY_ID` varchar(255) DEFAULT '0',
+  `PROD_ID` varchar(255) DEFAULT '0',
+  `PROD_BATCH_ID` varchar(255) DEFAULT '0',
+  `PROD_CODE` varchar(255) DEFAULT NULL,
+  `PROD_DESCRIPTION` varchar(255) DEFAULT NULL,
+  `BATCH_NO` varchar(255) DEFAULT NULL,
+  `MFG_DATE` varchar(255) DEFAULT NULL,
+  `PACK` varchar(255) DEFAULT '0',
+  `PROD_WEIGHT` int(11) NOT NULL DEFAULT 0,
+  `PROD_WEIGHT_UNIT` int(11) NOT NULL DEFAULT 0,
+  `MRP` varchar(255) DEFAULT '0',
+  `OP_STOCK` varchar(255) DEFAULT '0',
+  `OP_VALUE` varchar(255) DEFAULT '0',
+  `TOTAL_PURCHASE` varchar(255) DEFAULT '0',
+  `TOTAL_PURCHASE_RETURN` varchar(255) DEFAULT '0',
+  `TOTAL_PURCHASE_CHALLAN` varchar(255) DEFAULT '0',
+  `PURCHASE` varchar(255) DEFAULT '0',
+  `PURCHASE_VALUE` varchar(255) DEFAULT '0',
+  `TOTAL_SALES` varchar(255) DEFAULT '0',
+  `TOTAL_SALES_RETURN` varchar(255) DEFAULT '0',
+  `TOTAL_SALES_CHALLAN` varchar(255) DEFAULT '0',
+  `SALES` varchar(255) DEFAULT '0',
+  `SALES_VALUE` varchar(255) DEFAULT '0',
+  `CLOSING_STOCK` varchar(255) DEFAULT '0',
+  `PUR_AMT` varchar(255) DEFAULT '0',
+  `PUR_TAX_AMT` varchar(255) DEFAULT '0',
+  `PUR_AMT_WITH_GST` varchar(255) DEFAULT '0',
+  `PUR_AMT_WITH_GST_CESS` varchar(255) DEFAULT '0',
+  `SALE_AMT` varchar(255) DEFAULT '0',
+  `SALE_TAX_AMT` varchar(255) DEFAULT '0',
+  `SALE_AMT_WITH_GST` varchar(255) DEFAULT '0',
+  `SALE_AMT_WITH_GST_CESS` varchar(255) DEFAULT '0',
+  `PUR_SALE_DATE` varchar(255) DEFAULT NULL,
+  `INVOICE_NO` varchar(255) DEFAULT NULL,
+  `PUR_RATE` varchar(255) DEFAULT '0',
+  `SALE_RATE` varchar(255) DEFAULT '0',
+  `PUR_VAT` varchar(255) DEFAULT '0',
+  `SALES_VAT` varchar(255) DEFAULT '0',
+  `PUR_UNIT` varchar(255) DEFAULT '0',
+  `SALE_UNIT` varchar(255) DEFAULT '0',
+  `TAX_AGAINST` varchar(255) DEFAULT '0',
+  `CESS` varchar(255) NOT NULL DEFAULT '0',
+  `CL_VALUE` varchar(255) NOT NULL DEFAULT '0',
+  `PUR_WEIGHT` varchar(255) NOT NULL DEFAULT '0',
+  `PUR_WEIGHT_UNIT` varchar(255) NOT NULL DEFAULT '0',
+  `SALES_WEIGHT` varchar(255) NOT NULL DEFAULT '0',
+  `SALES_WEIGHT_UNIT` varchar(255) NOT NULL DEFAULT '0',
+  `HSN_SAC_CODE` varchar(255) NOT NULL DEFAULT '',
+  `GROUP_NAME` varchar(255) NOT NULL DEFAULT '',
+  `SALES_ITEM_ID` varchar(255) NOT NULL DEFAULT '0',
+  `TABLE_NAME` varchar(255) NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `PROD_STOCK_REPORT`
+--
+
+INSERT INTO `PROD_STOCK_REPORT` (`ID`, `COMPANY_ID`, `PROD_ID`, `PROD_BATCH_ID`, `PROD_CODE`, `PROD_DESCRIPTION`, `BATCH_NO`, `MFG_DATE`, `PACK`, `PROD_WEIGHT`, `PROD_WEIGHT_UNIT`, `MRP`, `OP_STOCK`, `OP_VALUE`, `TOTAL_PURCHASE`, `TOTAL_PURCHASE_RETURN`, `TOTAL_PURCHASE_CHALLAN`, `PURCHASE`, `PURCHASE_VALUE`, `TOTAL_SALES`, `TOTAL_SALES_RETURN`, `TOTAL_SALES_CHALLAN`, `SALES`, `SALES_VALUE`, `CLOSING_STOCK`, `PUR_AMT`, `PUR_TAX_AMT`, `PUR_AMT_WITH_GST`, `PUR_AMT_WITH_GST_CESS`, `SALE_AMT`, `SALE_TAX_AMT`, `SALE_AMT_WITH_GST`, `SALE_AMT_WITH_GST_CESS`, `PUR_SALE_DATE`, `INVOICE_NO`, `PUR_RATE`, `SALE_RATE`, `PUR_VAT`, `SALES_VAT`, `PUR_UNIT`, `SALE_UNIT`, `TAX_AGAINST`, `CESS`, `CL_VALUE`, `PUR_WEIGHT`, `PUR_WEIGHT_UNIT`, `SALES_WEIGHT`, `SALES_WEIGHT_UNIT`, `HSN_SAC_CODE`, `GROUP_NAME`, `SALES_ITEM_ID`, `TABLE_NAME`) VALUES
+(1, '289', '3', '3', '003', 'Lux 1 Kg', '21940625', '2026-08-12', '24', 1, 3, '160', '105.00', '12600', '200', '0', '0', '200', '6000', '0', '0', '0', '0', '0', '305', '12000.0000', '600.00', '12600', '12600', '0', '0', '0', '0', '2026-08-18', '112233', '120.0000', '130', '5.00', '5', '7', '0', '3', '0', '6600', '200', 'KG', '0', '', '123456', 'Group3', '0', 'PURCHASE_ITEM'),
+(2, '289', '3', '3', '003', 'Lux 1 Kg', '21940625', '2026-08-12', '24', 1, 3, '160', '105.00', '0', '0', '100', '0', '-100', '-12000', '0', '0', '0', '0', '0', '5', '6000.00', '300.00', '6300', '6300', '0', '0', '0', '0', '2026-08-18', '12332211', '120.0000', '0', '5.00', '0', '7', '0', '3', '0', '0', '0', '', '0', '', '123456', 'Group3', '0', 'PURCHASE_ITEM'),
+(3, '289', '3', '3', '003', 'Lux 1 Kg', '21940625', '2026-08-12', '24', 1, 3, '160', '105.00', '0', '0', '50', '0', '-50', '-6000', '0', '0', '0', '0', '0', '55', '0', '0.00', '0', '0', '0', '0', '0', '0', '2026-08-18', '12332211', '120.0000', '0', '5.00', '0', '7', '0', '3', '0', '0', '0', '', '0', '', '123456', 'Group3', '0', 'PURCHASE_ITEM');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `PROD_STOCK_REPORT`
+--
+ALTER TABLE `PROD_STOCK_REPORT`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `PROD_STOCK_REPORT`
+--
+ALTER TABLE `PROD_STOCK_REPORT`
+  MODIFY `ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

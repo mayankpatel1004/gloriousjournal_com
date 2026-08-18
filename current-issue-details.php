@@ -619,9 +619,11 @@ $data = $stmt->fetch(PDO::FETCH_ASSOC);
                                 <span class="value"><?php echo htmlspecialchars($data['country'] ?? '—'); ?></span>
                             </div>
                             <div class="meta-item">
-                                <span class="label">Volume</span>
-                                <span class="value"><?php echo htmlspecialchars($data['volume'] ?? '—'); ?></span>
+                                <span class="label">Volume / Issue</span>
+                                <span class="value"><?php echo htmlspecialchars($data['volume'] ?? '—'); ?> / <?php echo htmlspecialchars($data['issue'] ?? ''); ?></span>
                             </div>
+                            
+                            
                             <div class="meta-item">
                                 <span class="label">DOI</span>
                                 <span class="value">

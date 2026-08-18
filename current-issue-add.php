@@ -29,14 +29,14 @@ if(isset($_GET['action']) && $_GET['action'] == 'delete'){
 
 
 
+
 if(isset($_POST['title']) && $_POST['title'] != ""){
     
     try {
 
         if(isset($_POST['submit'])){
 
-            // Check if update or insert
-            $id = isset($_POST['id']) ? $_POST['id'] : "";
+            $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
 
             $title = $_POST['title'];
             $author_description = $_POST['author_description'];
@@ -50,39 +50,43 @@ if(isset($_POST['title']) && $_POST['title'] != ""){
             $publish_date = $_POST['publish_date'];
             $display_order = $_POST['display_order'];
 
-            // File Upload
+            // ======================
+            // FILE UPLOAD
+            // ======================
             $attachment = "";
-            $upload_dir = $directory_path."uploads/";
+            $upload_dir = $directory_path . "uploads/";
 
-            if(isset($_FILES['attachment']) && $_FILES['attachment']['error'] == 0){
+            if(isset($_FILES['attachment'])){
 
-                if(!is_dir($upload_dir)){
-                    mkdir($upload_dir, 0777, true);
+                // Debug error
+                if($_FILES['attachment']['error'] != 0){
+                    // Uncomment for debugging
+                    // echo "Upload Error: " . $_FILES['attachment']['error']; exit;
                 }
 
-                $file_name = time() . "_" . basename($_FILES['attachment']['name']);
-                $target_file = $upload_dir . $file_name;
+                if($_FILES['attachment']['error'] == 0 && $_FILES['attachment']['name'] != ""){
 
-                if(move_uploaded_file($_FILES['attachment']['tmp_name'], $target_file)){
-                    $attachment = $file_name;
+                    if(!is_dir($upload_dir)){
+                        mkdir($upload_dir, 0777, true);
+                    }
+
+                    $file_name = time() . "_" . basename($_FILES['attachment']['name']);
+                    $target_file = $upload_dir . $file_name;
+
+                    if(move_uploaded_file($_FILES['attachment']['tmp_name'], $target_file)){
+                        $attachment = $file_name;
+                    } else {
+                        echo "Failed to move uploaded file"; exit;
+                    }
                 }
             }
 
-            // =========================
-            // UPDATE CASE
-            // =========================
+            // ======================
+            // UPDATE
+            // ======================
             if($id > 0){
 
                 if($attachment != ""){
-                    // Optional: delete old file
-                    $old = $conn->prepare("SELECT attachment FROM current_issue WHERE id = ?");
-                    $old->execute([$id]);
-                    $oldFile = $old->fetchColumn();
-
-                    if($oldFile && file_exists($upload_dir.$oldFile)){
-                        unlink($upload_dir.$oldFile);
-                    }
-
                     $sql = "UPDATE current_issue SET
                         title = :title,
                         author_description = :author_description,
@@ -114,13 +118,12 @@ if(isset($_POST['title']) && $_POST['title'] != ""){
                 }
 
                 $stmt = $conn->prepare($sql);
-
                 $stmt->bindParam(':id', $id);
             }
 
-            // =========================
-            // INSERT CASE
-            // =========================
+            // ======================
+            // INSERT
+            // ======================
             else {
 
                 $sql = "INSERT INTO current_issue
@@ -171,18 +174,21 @@ if(isset($_POST['title']) && $_POST['title'] != ""){
             $stmt->bindParam(':publish_date', $publish_date);
             $stmt->bindParam(':display_order', $display_order);
 
+            // Bind attachment only when needed
+            if($attachment != "" && $id > 0){
+                $stmt->bindParam(':attachment', $attachment);
+            }
+
             $stmt->execute();
 
             header('Location:'.$url.'current-issue-add.html');
             exit;
-
         }
 
     } catch(PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
 }
-
 
 
 
@@ -329,7 +335,7 @@ if(isset($record) && $record > 0){
                             <td><?php echo $data['title'];?><br /><span class="text-info"><?php echo $data['author_description'];?></span><br /><span class="text-warning"><?php echo $data['doi_no'];?></span></td>
                             <td><?php echo $data['volume'];?>/<?php echo $data['issue'];?></td>
                             <td><?php echo $data['country'];?></td>
-                            <td><?php echo $data['dot_link'];?></td>
+                            <td><a href="<?php echo $data['doi_link'];?>" target="_blank">View</a></td>
                             <td><?php echo $data['keywords'];?></td>
                             <td>
                                 <div onclick="openPopup()" style="cursor:pointer;text-decoration:underline;">View</div>
