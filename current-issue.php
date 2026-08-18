@@ -276,10 +276,20 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             <span class="label">Volume:</span>
                                             <span class="value"><?php echo htmlspecialchars($data['volume']); ?></span>
                                         </span>
+                                        <span class="meta-item">
+                                            <span class="label">Issue:</span>
+                                            <span class="value"><?php echo htmlspecialchars($data['issue']); ?></span>
+                                        </span>
                                         <?php if (!empty($data['doi_no'])): ?>
                                             <span class="meta-item">
                                                 <span class="label">DOI:</span>
                                                 <span class="value"><?php echo htmlspecialchars($data['doi_no']); ?></span>
+                                            </span>
+                                        <?php endif; ?>
+                                        <?php if (!empty($data['doi_no'])): ?>
+                                            <span class="meta-item">
+                                                <span class="label">Link:</span>
+                                                <span class="value"><a target="_blank" href="<?php echo $data['doi_link'];?>"><?php echo htmlspecialchars($data['doi_no']); ?></a></span>
                                             </span>
                                         <?php endif; ?>
                                         <?php if (!empty($data['dot_link'])): ?>
