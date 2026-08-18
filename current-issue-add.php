@@ -4,11 +4,20 @@ if(!isset($_SESSION['user_name'])){
     header('Location:login.html');
 }
 $date = date('Y-m-d');
+$record = [];
+
 
 $sqlGetRecentRecords = "SELECT * FROM current_issue ORDER BY id DESC LIMIT 0,10";
 $stmt = $conn->prepare($sqlGetRecentRecords);
 $stmt->execute();
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+if(isset($_GET['id']) && $_GET['id'] > 0){
+    $sqlGetRecentRecord = "SELECT * FROM current_issue WHERE id = '".$_GET['id']."'";
+    $stmt = $conn->prepare($sqlGetRecentRecord);
+    $stmt->execute();
+    $record = $stmt->fetch(PDO::FETCH_ASSOC);
+}
 
 if(isset($_GET['action']) && $_GET['action'] == 'delete'){
     $sqlDelete = "DELETE FROM current_issue WHERE id = '".$_GET['id']."'";
@@ -16,12 +25,19 @@ if(isset($_GET['action']) && $_GET['action'] == 'delete'){
     if($stmt->execute()){
         header('Location:'.$url.'current-issue-add.php');
     }
-    
 }
+
+
+
 if(isset($_POST['title']) && $_POST['title'] != ""){
     
     try {
+
         if(isset($_POST['submit'])){
+
+            // Check if update or insert
+            $id = isset($_POST['id']) ? $_POST['id'] : "";
+
             $title = $_POST['title'];
             $author_description = $_POST['author_description'];
             $volume = $_POST['volume'];
@@ -37,18 +53,77 @@ if(isset($_POST['title']) && $_POST['title'] != ""){
             // File Upload
             $attachment = "";
             $upload_dir = $directory_path."uploads/";
+
             if(isset($_FILES['attachment']) && $_FILES['attachment']['error'] == 0){
-                
-                if(!is_dir($upload_dir)){mkdir($upload_dir, 0777, true);}
+
+                if(!is_dir($upload_dir)){
+                    mkdir($upload_dir, 0777, true);
+                }
+
                 $file_name = time() . "_" . basename($_FILES['attachment']['name']);
                 $target_file = $upload_dir . $file_name;
-                
+
                 if(move_uploaded_file($_FILES['attachment']['tmp_name'], $target_file)){
                     $attachment = $file_name;
                 }
             }
 
-            $sql = "INSERT INTO current_issue
+            // =========================
+            // UPDATE CASE
+            // =========================
+            if($id > 0){
+
+                if($attachment != ""){
+                    // Optional: delete old file
+                    $old = $conn->prepare("SELECT attachment FROM current_issue WHERE id = ?");
+                    $old->execute([$id]);
+                    $oldFile = $old->fetchColumn();
+
+                    if($oldFile && file_exists($upload_dir.$oldFile)){
+                        unlink($upload_dir.$oldFile);
+                    }
+
+                    $sql = "UPDATE current_issue SET
+                        title = :title,
+                        author_description = :author_description,
+                        volume = :volume,
+                        issue = :issue,
+                        country = :country,
+                        doi_no = :doi_no,
+                        doi_link = :doi_link,
+                        abstract = :abstract,
+                        keywords = :keywords,
+                        publish_date = :publish_date,
+                        display_order = :display_order,
+                        attachment = :attachment
+                        WHERE id = :id";
+                } else {
+                    $sql = "UPDATE current_issue SET
+                        title = :title,
+                        author_description = :author_description,
+                        volume = :volume,
+                        issue = :issue,
+                        country = :country,
+                        doi_no = :doi_no,
+                        doi_link = :doi_link,
+                        abstract = :abstract,
+                        keywords = :keywords,
+                        publish_date = :publish_date,
+                        display_order = :display_order
+                        WHERE id = :id";
+                }
+
+                $stmt = $conn->prepare($sql);
+
+                $stmt->bindParam(':id', $id);
+            }
+
+            // =========================
+            // INSERT CASE
+            // =========================
+            else {
+
+                $sql = "INSERT INTO current_issue
                 (
                     title,
                     author_description,
@@ -79,27 +154,68 @@ if(isset($_POST['title']) && $_POST['title'] != ""){
                     :attachment
                 )";
 
-        $stmt = $conn->prepare($sql);
-        $stmt->bindParam(':title', $title);
-        $stmt->bindParam(':author_description', $author_description);
-        $stmt->bindParam(':volume', $volume);
-        $stmt->bindParam(':issue', $issue);
-        $stmt->bindParam(':country', $country);
-        $stmt->bindParam(':doi_no', $doi_no);
-        $stmt->bindParam(':doi_link', $doi_link);
-        $stmt->bindParam(':abstract', $abstract);
-        $stmt->bindParam(':keywords', $keywords);
-        $stmt->bindParam(':publish_date', $publish_date);
-        $stmt->bindParam(':display_order', $display_order);
-        $stmt->bindParam(':attachment', $attachment);
-        $stmt->execute();
-        header('Location:'.$url.'current-issue-add.php');
+                $stmt = $conn->prepare($sql);
+                $stmt->bindParam(':attachment', $attachment);
+            }
+
+            // Common bindings
+            $stmt->bindParam(':title', $title);
+            $stmt->bindParam(':author_description', $author_description);
+            $stmt->bindParam(':volume', $volume);
+            $stmt->bindParam(':issue', $issue);
+            $stmt->bindParam(':country', $country);
+            $stmt->bindParam(':doi_no', $doi_no);
+            $stmt->bindParam(':doi_link', $doi_link);
+            $stmt->bindParam(':abstract', $abstract);
+            $stmt->bindParam(':keywords', $keywords);
+            $stmt->bindParam(':publish_date', $publish_date);
+            $stmt->bindParam(':display_order', $display_order);
+
+            $stmt->execute();
+
+            header('Location:'.$url.'current-issue-add.html');
+            exit;
+
         }
 
     } catch(PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
 }
+
+
+
+
+$id = 0;
+$title = "";
+$author = "";
+$volume = "";
+$issue = "";
+$country = "India";
+$doi_no = "";
+$doi_link = "";
+$abstract = "";
+$keyword = "";
+$attachment = "";
+$publish_date = $date;
+$order = 0;
+
+if(isset($record) && $record > 0){
+    $id = $record['id'];
+    $title = $record['title'];
+    $author = $record['author_description'];
+    $volume = $record['volume'];
+    $issue = $record['issue'];
+    $country = $record['country'];
+    $doi_no = $record['doi_no'];
+    $doi_link = $record['doi_link'];
+    $abstract = $record['abstract'];
+    $keyword = $record['keywords'];
+    $attachment = $record['attachment'];
+    $publish_date = $record['publish_date'];
+    $order = $record['display_order'];
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -129,51 +245,58 @@ if(isset($_POST['title']) && $_POST['title'] != ""){
                             <table class="table table-striped">
                                 <tr>
                                     <td>Title</td>
-                                    <td><input type="text" class="form-control" name="title" /></td>
+                                    <td>
+                                        <input type="hidden" class="form-control" name="id" value="<?php echo $id;?>" />
+                                        <input type="text" class="form-control" name="title" value="<?php echo $title;?>" />
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Author</td>
-                                    <td><input type="text" class="form-control" name="author_description" /></td>
+                                    <td><input type="text" class="form-control" name="author_description" value="<?php echo $author;?>" /></td>
                                 </tr>
                                 <tr>
                                     <td>Volume</td>
-                                    <td><input type="text" class="form-control" name="volume" /></td>
+                                    <td><input type="text" class="form-control" name="volume" value="<?php echo $volume;?>" /></td>
                                 </tr>
                                 <tr>
                                     <td>Issue</td>
-                                    <td><input type="text" class="form-control" name="issue" /></td>
+                                    <td><input type="text" class="form-control" name="issue" value="<?php echo $issue;?>" /></td>
                                 </tr>
                                 <tr>
                                     <td>Country</td>
-                                    <td><input type="text" class="form-control" name="country" value="India" /></td>
+                                    <td><input type="text" class="form-control" name="country" value="<?php echo $country;?>" /></td>
                                 </tr>
                                 <tr>
                                     <td>DOI No.</td>
-                                    <td><input type="text" class="form-control" name="doi_no" /></td>
+                                    <td><input type="text" class="form-control" name="doi_no" value="<?php echo $doi_no;?>" /></td>
                                 </tr>
                                 <tr>
                                     <td>DOI Link</td>
-                                    <td><input type="text" class="form-control" name="doi_link" /></td>
+                                    <td><input type="text" class="form-control" name="doi_link" value="<?php echo $doi_link;?>" /></td>
                                 </tr>
                                 <tr>
                                     <td>Abstract</td>
-                                    <td><textarea name="abstract" class="form-control" rows="10"></textarea></td>
+                                    <td><textarea name="abstract" class="form-control" rows="10"><?php echo $abstract;?></textarea></td>
                                 </tr>
                                 <tr>
                                     <td>Keywords</td>
-                                    <td><input type="text" class="form-control" name="keywords" value="" /></td>
+                                    <td><input type="text" class="form-control" name="keywords" value="<?php echo $keyword;?>" /></td>
                                 </tr>
                                 <tr>
                                     <td>Attahment</td>
-                                    <td><input type="file" class="form-control" name="attachment" value="" /></td>
+                                    <td><input type="file" class="form-control" name="attachment" value="<?php echo $attachment;?>" />
+                                    <?php if($attachment != ""):?>
+                                    <a href="<?php echo $url."uploads/".$attachment;?>" target="_blank">View</a>
+                                    <?php endif;?>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Publish Date</td>
-                                    <td><input type="date" class="form-control" name="publish_date" value="<?php echo $date;?>" /></td>
+                                    <td><input type="date" class="form-control" name="publish_date" value="<?php echo $publish_date;?>" /></td>
                                 </tr>
                                 <tr>
                                     <td>Order</td>
-                                    <td><input type="text" class="form-control" name="display_order" value="0" /></td>
+                                    <td><input type="text" class="form-control" name="display_order" value="<?php echo $order;?>" /></td>
                                 </tr>
                                 <tr>
                                     <td></td>
@@ -222,7 +345,10 @@ if(isset($_POST['title']) && $_POST['title'] != ""){
                                 <?php }?>
                             </td>
                             <td><?php echo date('d/m/Y',strtotime($data['publish_date']));?></td>
-                            <td><a href="javascript:void(0)" onclick="return fnDeleteConfirm(<?php echo $data['id'];?>)">Delete</a></td>
+                            <td>
+                                <a href="<?php echo $url;?>/current-issue-add.html?id=<?php echo $data['id'];?>">Edit</a>
+                                <a href="javascript:void(0)" onclick="return fnDeleteConfirm(<?php echo $data['id'];?>)">Delete</a>
+                            </td>
                         </tr>
                         <?php
                     }
