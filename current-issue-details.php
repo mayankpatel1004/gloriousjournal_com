@@ -628,7 +628,7 @@ $data = $stmt->fetch(PDO::FETCH_ASSOC);
                                 <span class="label">DOI</span>
                                 <span class="value">
                                     <?php if (!empty($data['doi_no'])): ?>
-                                        <span class="doi-badge"><?php echo htmlspecialchars($data['doi_no']); ?></span>
+                                        <span class="doi-badge"><a href="<?php echo htmlspecialchars($data['dot_link']); ?>"><?php echo htmlspecialchars($data['doi_no']); ?></a></span>
                                     <?php else: ?>
                                         —
                                     <?php endif; ?>
