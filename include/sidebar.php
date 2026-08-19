@@ -34,6 +34,9 @@
                                 <td class="pl-0"><a href="#" class="text-decoration-none text-secondary">Conflict of
                                         Interest Form</a></td>
                             </tr>
+                            <tr>
+                                <td class="pl-0"><a href="<?php echo $url?>books.html" class="text-decoration-none text-secondary">Books</a></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

@@ -29,6 +29,7 @@ Vadodara, Gujarat.</p>
                         <li><a class="footer-link text-white" href="<?php echo $url;?>copyright-policy.php">Copyright Policy</a></li>
                         <li><a class="footer-link text-white" href="<?php echo $url;?>aim-scope-of-journal.php">Aim and Scope of Journal</a></li>
                         <li><a class="footer-link text-white" href="<?php echo $url;?>current-issue-add.php">Add New Current Issue</a></li>
+                        <li><a class="footer-link text-white" href="<?php echo $url;?>books-add.php">Add New Book</a></li>
                     </ul>
                 </div>
             </div>
