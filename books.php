@@ -1,4 +1,6 @@
-<?php include "connection.php";
+<?php 
+include "connection.php";
+echo "fsdfasd";exit;
 $date = date('Y-m-d');
 
 $sqlGetRecentRecords = "SELECT * FROM book_issue WHERE volume = (SELECT MAX(volume) FROM book_issue) ORDER BY publish_date DESC";
