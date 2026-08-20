@@ -292,8 +292,8 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <?php endforeach; ?>
                         <?php else: ?>
                             <div class="no-articles">
-                                <h4>No articles found</h4>
-                                <p>There are no articles in the current issue yet.</p>
+                                <h4>No Book(s) found</h4>
+                                <p>There are no book in the current issue yet.</p>
                             </div>
                         <?php endif; ?>
                     </div>
