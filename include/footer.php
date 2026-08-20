@@ -6,11 +6,13 @@
                 <div class="footer-contact-us text-white">
                     <h3 class="main_header footer-title footer-border">Editor in Chief</h3>
                     <p class="main_header text-uppercase"></p>
-                    <p><b><?php echo $website_name;?></b> <b>Dr. Ravindra HN</b>, MSc (N), MA (Socio), M. Phil (HC & HA), Ph.D. (N).
-Glorious International Journal Of Nursing Research (GIJNR)<br />
-Professor and Principal <br />
-Vadodara, Gujarat.</p>
+                    <p><b>Dr. Ravindra HN</b>, MSc (N), MA (Socio), M. Phil (HC & HA), Ph.D. (N).<br />
+Dean & Director. -ITM College of Nursing,<br /> Allied and Healthcare Sciences,<br /> ITM SLS Baroda University, Vadodara, Gujarat.</p>
                 </div>
+
+
+
+
             </div>
             <div class="col-md-4 ms-auto">
                 <div class="footer-contact-us text-white">

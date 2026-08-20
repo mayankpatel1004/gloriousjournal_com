@@ -261,10 +261,10 @@ if(isset($record) && $record > 0){
                                     <td><input type="text" class="form-control" name="author_description" value="<?php echo $author;?>" /></td>
                                 </tr>
                                 <tr>
-                                    <td>Volume</td>
+                                    <td>ISBN</td>
                                     <td><input type="text" class="form-control" name="volume" value="<?php echo $volume;?>" /></td>
                                 </tr>
-                                <tr>
+                                <tr class="d-none">
                                     <td>Issue</td>
                                     <td><input type="text" class="form-control" name="issue" value="<?php echo $issue;?>" /></td>
                                 </tr>
@@ -280,7 +280,7 @@ if(isset($record) && $record > 0){
                                     <td>DOI Link</td>
                                     <td><input type="text" class="form-control" name="doi_link" value="<?php echo $doi_link;?>" /></td>
                                 </tr>
-                                <tr>
+                                <tr class="d-none">
                                     <td>Abstract</td>
                                     <td><textarea name="abstract" class="form-control" rows="10"><?php echo $abstract;?></textarea></td>
                                 </tr>

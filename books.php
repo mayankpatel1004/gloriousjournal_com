@@ -251,15 +251,17 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <?php foreach ($result as $data): ?>
                                 <div class="article-card">
                                     <h4 class="card-title">
-                                        <a href="current-issue-details.php?id=<?php echo htmlspecialchars($data['id']); ?>">
-                                            <?php echo htmlspecialchars($data['title']); ?>
-                                        </a>
+                                        <?php echo htmlspecialchars($data['title']); ?>
                                     </h4>
 
                                     <div class="card-meta">
                                         <span class="meta-item">
                                             <span class="label">Author:</span>
                                             <span class="value"><?php echo htmlspecialchars($data['author_description'] ?: '—'); ?></span>
+                                        </span>
+                                        <span class="meta-item">
+                                            <span class="label">ISBN:</span>
+                                            <span class="value"><?php echo htmlspecialchars($data['volume'] ?: '—'); ?></span>
                                         </span>
                                         <span class="meta-item">
                                             <span class="label">Country:</span>

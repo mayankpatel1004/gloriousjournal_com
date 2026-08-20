@@ -134,6 +134,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="<?php echo $url;?>archive.html">Archive</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?php echo $url;?>books.html">Books</a>
+                        </li>
                     </ul>
                 </div>
             </div>
