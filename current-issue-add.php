@@ -27,9 +27,6 @@ if(isset($_GET['action']) && $_GET['action'] == 'delete'){
     }
 }
 
-
-
-
 if(isset($_POST['title']) && $_POST['title'] != ""){
     
     try {
