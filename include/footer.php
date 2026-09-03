@@ -32,6 +32,7 @@ Dean & Director. -ITM College of Nursing,<br /> Allied and Healthcare Sciences,<
                         <li><a class="footer-link text-white" href="<?php echo $url;?>aim-scope-of-journal.php">Aim and Scope of Journal</a></li>
                         <li><a class="footer-link text-white" href="<?php echo $url;?>current-issue-add.php">Add New Current Issue</a></li>
                         <li><a class="footer-link text-white" href="<?php echo $url;?>books-add.php">Add New Book</a></li>
+                        <li><a class="footer-link text-white" href="<?php echo $url;?>membership.php">Add New Member</a></li>
                     </ul>
                 </div>
             </div>
