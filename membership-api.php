@@ -1,28 +1,6 @@
-
 <?php
 include "connection.php";
-$allowed_domains = [
-    'https://gloriousjournal.com',
-    'https://gloriousfoundation.org'
-];
 
-if (!isset($_SERVER['HTTP_REFERER'])) {
-    die(json_encode(["status"=>"error","message"=>"Unauthorized access"]));
-}
-
-$referer = $_SERVER['HTTP_REFERER'];
-
-$allowed = false;
-foreach ($allowed_domains as $domain) {
-    if (strpos($referer, $domain) !== false) {
-        $allowed = true;
-        break;
-    }
-}
-
-if (!$allowed) {
-    die(json_encode(["status"=>"error","message"=>"Unauthorized access"]));
-}
 session_start();
 
 if (!isset($_SESSION['user_name'])) {
