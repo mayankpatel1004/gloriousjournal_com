@@ -1,490 +1,375 @@
-<?php include "connection.php";
-$date = date('Y-m-d');
-
-$sqlGetDistinctRecords = "SELECT DISTINCT(volume),issue FROM current_issue WHERE volume != (SELECT MAX(volume) FROM current_issue)";
-$stmt = $conn->prepare($sqlGetDistinctRecords);
-$stmt->execute();
-$resultDistinct = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-$sqlGetRecentRecords = "SELECT * FROM current_issue WHERE volume != (SELECT MAX(volume) FROM current_issue)";
-if(isset($_GET['volume']) && $_GET['volume'] != ""){
-    $sqlGetRecentRecords = "SELECT * FROM current_issue WHERE volume = ".$_GET['volume'];
-}
-$stmt = $conn->prepare($sqlGetRecentRecords);
-$stmt->execute();
-$articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
-?>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <?php include "include/head.php"; ?>
-    <style>
-        /* ── Global Reset & Base ── */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', 'Segoe UI', Roboto, system-ui, sans-serif;
-            background: #f6f9fc;
-            color: #1e293b;
-            line-height: 1.6;
-        }
-
-        /* ── Hero / Page Header ── */
-        .hero1 {
-            padding: 2rem 0 4rem;
-            background: linear-gradient(145deg, #f8fafc 0%, #eef2f6 100%);
-            min-height: 70vh;
-        }
-
-        .custom-container-width {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-        }
-
-        .section-padding {
-            padding: 1.5rem 0 0.5rem;
-        }
-
-        .hero-body h3 {
-            font-weight: 700;
-            font-size: 2rem;
-            color: #0b2b4a;
-            position: relative;
-            display: inline-block;
-            margin-bottom: 0.5rem;
-        }
-
-        .hero-body h3::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: -6px;
-            width: 60px;
-            height: 4px;
-            background: linear-gradient(90deg, #2a7de1, #6cb2f5);
-            border-radius: 4px;
-        }
-
-        .hero-body hr {
-            display: none;
-        }
-
-        .volume-indicator {
-            margin-top: 1rem;
-            font-weight: 600;
-            font-size: 1rem;
-            color: #2a7de1;
-            background: #eef6ff;
-            padding: 0.3rem 1.6rem;
-            border-radius: 40px;
-            display: inline-block;
-        }
-
-        /* ── Main Content & Sidebar ── */
-        .archive-main {
-            margin-top: 2rem;
-        }
-
-        /* ── Article Cards ── */
-        .article-card {
-            background: #ffffff;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 20, 40, 0.04), 0 1px 4px rgba(0, 0, 0, 0.02);
-            padding: 1.8rem 2rem;
-            margin-bottom: 1.8rem;
-            transition: box-shadow 0.25s ease, transform 0.2s ease;
-            border: 1px solid #edf2f7;
-        }
-
-        .article-card:hover {
-            box-shadow: 0 12px 40px rgba(0, 20, 40, 0.08);
-            transform: translateY(-3px);
-        }
-
-        .article-card .card-title {
-            font-size: 1.35rem;
-            font-weight: 700;
-            margin: 0 0 0.5rem 0;
-            line-height: 1.3;
-        }
-
-        .article-card .card-title a {
-            color: #0b2b4a;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        .article-card .card-title a:hover {
-            color: #2a7de1;
-            text-decoration: underline;
-        }
-
-        .article-card .card-meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem 1.8rem;
-            font-size: 0.85rem;
-            color: #64748b;
-            border-bottom: 1px solid #f0f4f9;
-            padding-bottom: 0.8rem;
-            margin-bottom: 0.8rem;
-        }
-
-        .article-card .card-meta .meta-item {
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-        }
-
-        .article-card .card-meta .meta-item .label {
-            font-weight: 600;
-            color: #475569;
-        }
-
-        .article-card .card-meta .meta-item .value {
-            color: #1e293b;
-        }
-
-        .article-card .card-meta .meta-item .value a {
-            color: #2a7de1;
-            text-decoration: none;
-            word-break: break-all;
-        }
-
-        .article-card .card-meta .meta-item .value a:hover {
-            text-decoration: underline;
-        }
-
-        .article-card .card-excerpt {
-            font-size: 0.95rem;
-            color: #334155;
-            line-height: 1.7;
-            margin-bottom: 1rem;
-        }
-
-        .article-card .card-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 0.8rem;
-            border-top: 1px solid #f0f4f9;
-            padding-top: 1rem;
-            margin-top: 0.2rem;
-        }
-
-        .article-card .card-footer .read-more {
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: #2a7de1;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.3rem;
-            transition: gap 0.2s;
-        }
-
-        .article-card .card-footer .read-more:hover {
-            gap: 0.6rem;
-            text-decoration: underline;
-        }
-
-        .article-card .card-footer .post-date {
-            font-size: 0.8rem;
-            color: #94a3b8;
-            background: #f1f5f9;
-            padding: 0.15rem 1rem;
-            border-radius: 40px;
-        }
-
-        /* ── No articles ── */
-        .no-articles {
-            background: #fff;
-            border-radius: 16px;
-            padding: 3rem 2rem;
-            text-align: center;
-            border: 1px dashed #d1d9e6;
-            color: #64748b;
-        }
-
-        .no-articles h4 {
-            color: #1e293b;
-            margin-bottom: 0.5rem;
-        }
-
-        /* ── Sidebar: Archive List ── */
-        .archive-sidebar {
-            margin-top: 2rem;
-        }
-
-        .archive-sidebar .sidebar-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #0b2b4a;
-            margin-bottom: 1.2rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #e2e8f0;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .archive-sidebar .sidebar-title::before {
-            content: '📚';
-            font-size: 1.4rem;
-        }
-
-        .archive-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .archive-list li {
-            margin-bottom: 0.5rem;
-        }
-
-        .archive-list li a {
-            display: block;
-            padding: 0.6rem 1rem;
-            background: #ffffff;
-            border-radius: 10px;
-            color: #1e293b;
-            text-decoration: none;
-            font-weight: 500;
-            border: 1px solid #edf2f7;
-            transition: all 0.2s ease;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
-        }
-
-        .archive-list li a:hover {
-            background: #f1f9ff;
-            border-color: #2a7de1;
-            color: #2a7de1;
-            transform: translateX(4px);
-            box-shadow: 0 4px 12px rgba(42, 125, 225, 0.08);
-        }
-
-        .archive-list li a.active {
-            background: #2a7de1;
-            border-color: #2a7de1;
-            color: #fff;
-            box-shadow: 0 4px 14px rgba(42, 125, 225, 0.25);
-        }
-
-        .archive-list li a.active:hover {
-            background: #1a6bc9;
-            transform: translateX(4px);
-        }
-
-        .archive-list li a .volume-badge {
-            display: inline-block;
-            background: #eef2f6;
-            color: #1e293b;
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 0.1rem 0.6rem;
-            border-radius: 30px;
-            margin-left: 0.5rem;
-        }
-
-        .archive-list li a.active .volume-badge {
-            background: rgba(255, 255, 255, 0.2);
-            color: #fff;
-        }
-
-        /* ── Responsive ── */
-        @media (max-width: 992px) {
-            .archive-main .col-lg-9 {
-                flex: 0 0 100%;
-                max-width: 100%;
-            }
-            .archive-sidebar {
-                margin-top: 2.5rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .hero1 {
-                padding: 1rem 0 2rem;
-            }
-
-            .hero-body h3 {
-                font-size: 1.6rem;
-            }
-
-            .article-card {
-                padding: 1.2rem 1.2rem;
-            }
-
-            .article-card .card-title {
-                font-size: 1.2rem;
-            }
-
-            .article-card .card-meta {
-                flex-direction: column;
-                gap: 0.3rem;
-                font-size: 0.8rem;
-            }
-
-            .article-card .card-footer {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .archive-list li a {
-                padding: 0.5rem 0.8rem;
-                font-size: 0.9rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero-body h3 {
-                font-size: 1.4rem;
-            }
-
-            .article-card .card-title {
-                font-size: 1.1rem;
-            }
-        }
-    </style>
-</head>
-
-<body>
-    <?php include "include/header.php"; ?>
-
-    <section class="hero1">
-        <div class="container custom-container-width">
-            <div class="row">
-                <div class="col-lg-12 section-padding">
-                    <div class="hero-body" data-aos="fade-up">
-                        <h3>Archive</h3>
-                        <?php if (isset($selectedVolume) && !empty($articles)): ?>
-                            <span class="volume-indicator">
-                                Volume <?php echo htmlspecialchars($articles[0]['volume']); ?>
-                                &bull; Issue <?php echo htmlspecialchars($articles[0]['issue']); ?>
-                            </span>
-                        <?php elseif (empty($articles)): ?>
-                            <span class="volume-indicator" style="background:#f1f5f9; color:#64748b;">
-                                No articles found
-                            </span>
-                        <?php else: ?>
-                            <span class="volume-indicator" style="background:#f1f5f9; color:#64748b;">
-                                All archived volumes
-                            </span>
-                        <?php endif; ?>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row archive-main">
-                <!-- Main Content: Articles -->
-                <div class="col-lg-9">
-                    <?php if ($articles && count($articles) > 0): ?>
-                        <?php foreach ($articles as $data): ?>
-                            <div class="article-card">
-                                <h4 class="card-title">
-                                    <a href="current-issue-details.php?id=<?php echo htmlspecialchars($data['id']); ?>">
-                                        <?php echo htmlspecialchars($data['title']); ?>
-                                    </a>
-                                </h4>
-
-                                <div class="card-meta">
-                                    <span class="meta-item">
-                                        <span class="label">Author:</span>
-                                        <span class="value"><?php echo htmlspecialchars($data['author_description'] ?: '—'); ?></span>
-                                    </span>
-                                    <span class="meta-item">
-                                        <span class="label">Country:</span>
-                                        <span class="value"><?php echo htmlspecialchars($data['country'] ?: '—'); ?></span>
-                                    </span>
-                                    <span class="meta-item">
-                                        <span class="label">Volume:</span>
-                                        <span class="value"><?php echo htmlspecialchars($data['volume']); ?></span>
-                                    </span>
-                                    <?php if (!empty($data['doi_no'])): ?>
-                                        <span class="meta-item">
-                                            <span class="label">DOI:</span>
-                                            <span class="value"><?php echo htmlspecialchars($data['doi_no']); ?></span>
-                                        </span>
-                                    <?php endif; ?>
-                                    <?php if (!empty($data['dot_link'])): ?>
-                                        <span class="meta-item">
-                                            <span class="label">DOI Link:</span>
-                                            <span class="value">
-                                                <a href="<?php echo htmlspecialchars($data['dot_link']); ?>" target="_blank" rel="noopener">
-                                                    <?php echo htmlspecialchars($data['dot_link']); ?>
-                                                </a>
-                                            </span>
-                                        </span>
-                                    <?php endif; ?>
-                                </div>
-
-                                <?php if (!empty($data['abstract'])): ?>
-                                    <div class="card-excerpt">
-                                        <?php
-                                        $abstract = strip_tags($data['abstract']);
-                                        $excerpt = strlen($abstract) > 180 ? substr($abstract, 0, 180) . '…' : $abstract;
-                                        echo htmlspecialchars($excerpt);
-                                        ?>
-                                    </div>
-                                <?php endif; ?>
-
-                                <div class="card-footer">
-                                    <a href="current-issue-details.php?id=<?php echo htmlspecialchars($data['id']); ?>" class="read-more">
-                                        Read More <span aria-hidden="true">→</span>
-                                    </a>
-                                    <span class="post-date">
-                                        <?php echo date('d M Y', strtotime($data['publish_date'])); ?>
-                                    </span>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <div class="no-articles">
-                            <h4>No articles in this archive</h4>
-                            <p>There are no articles available for the selected volume.</p>
-                        </div>
-                    <?php endif; ?>
-                </div>
-
-                <!-- Sidebar: Archive Volumes -->
-                <div class="col-lg-3 archive-sidebar">
-                    <div class="sidebar-title">Archives</div>
-                    <?php if ($archiveVolumes && count($archiveVolumes) > 0): ?>
-                        <ul class="archive-list">
-                            <?php foreach ($archiveVolumes as $vol): ?>
-                                <li>
-                                    <a href="?volume=<?php echo htmlspecialchars($vol['volume']); ?>" 
-                                       class="<?php echo (isset($selectedVolume) && $selectedVolume == $vol['volume']) ? 'active' : ''; ?>">
-                                        Volume <?php echo htmlspecialchars($vol['volume']); ?>
-                                        <span class="volume-badge">Issue <?php echo htmlspecialchars($vol['issue']); ?></span>
-                                    </a>
-                                </li>
-                            <?php endforeach; ?>
-                            <!-- Optionally add a link to show all (clear filter) -->
-                            <li>
-                                <a href="?" class="<?php echo !isset($selectedVolume) ? 'active' : ''; ?>">
-                                    All Archives
-                                </a>
-                            </li>
-                        </ul>
-                    <?php else: ?>
-                        <p style="color:#94a3b8; font-size:0.9rem;">No archived volumes yet.</p>
-                    <?php endif; ?>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <?php include 'include/footer.php'; ?>
-    <?php include 'include/footerscript.php'; ?>
-</body>
-
-</html>
+<table class="table table-hover table-bordered mb-0" id="membersTable">
+                            <thead>
+                                <tr class="text-center">
+                                    <th style="width: 5%">#</th>
+                                    <th style="width: 16%">GINRA ID</th>
+                                    <th style="width: 57%">Faculty / Designation / Institute</th>
+                                    <th style="width: 12%">Date of Joining</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody">
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">1</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2022/A-01</span></td>
+                        <td class="member-details">Prof. T. Beaulah Mercy Mary<br>Principal<br>Florida School and College of Nursing, Chennai.</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>07/21/2022</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">2</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2022/A-02</span></td>
+                        <td class="member-details">Prof. Bhuvaneshwari D<br>Principal<br>Rathnamma College of Nursing, Gudur</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>06/22/2022</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">3</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2022/A-03</span></td>
+                        <td class="member-details">Prof. Nidhi Sharma<br>Vice Principal<br>Prem Institute of Medical Sciences, Haryana</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>06/22/2022</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">4</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2022/A-04</span></td>
+                        <td class="member-details">Mr. Silas Treveli Munighati<br>Nursing Coordinator- Quality, IT &amp; PICU<br>Apollo Hospitals, Navi Mumbai, Maharashtra</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>07/01/2022</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">5</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2022/A-05</span></td>
+                        <td class="member-details">Dr. S Punitha Josephine<br>Vice Principal<br>Karpaga Vinayaga College of Nursing, Gst Road, Chinnakolambakkam, Madurntakam</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>07/24/2022</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">6</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2022/A-06</span></td>
+                        <td class="member-details">Dr. Kailash laljibhai lata<br>Principal<br>Shashikala Dhansukhlal Dadarwala College of Nursing Dahod</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>09/20/2022</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">7</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2022/A-07</span></td>
+                        <td class="member-details">Dr. Sripriya Gopalkrishnan<br>Professor cum Principal<br>Sadhu Vaswani College of Nursing, Pune</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>12/23/2022</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">8</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2022/A-08</span></td>
+                        <td class="member-details">Dr. Barkha Devi<br>Associate Professor<br>Sikkim Manipal College of Nursing, Sikkim, Assam</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>01/09/2023</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">9</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2022/A-09</span></td>
+                        <td class="member-details">Col. S Gita<br>Principal<br>College of Nursing Command Hospital Central, Command Lucknow.</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>13/01/2023</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">10</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2022/A-10</span></td>
+                        <td class="member-details">Leena Haribhauji Sarode<br>Associate Professor<br>Aasharam College of Nursing, Kamptee, Nagpur</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>02/03/2023</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">11</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2022/A-11</span></td>
+                        <td class="member-details">Prof. Kinjal Ritesh Joshi<br>Principal<br>Prerna Institute of Nursing, Dahod</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>02/06/2023</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">12</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2022/A-12</span></td>
+                        <td class="member-details">Mrs. Vijayalakshmi A. Honnakambale<br>Professor<br>Alkareem College of Nursing, Karnataka</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>08/02/2023</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">13</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2022/A-13</span></td>
+                        <td class="member-details">Dr. Gajanand Wale<br>Professor<br>ASPM's K T Patil College of Nursing</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>02/09/2023</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">14</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2022/A-14</span></td>
+                        <td class="member-details">Prof. S J Vimala R<br>Principal<br>Kuppam College of Nursing</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>02/10/2023</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">15</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2022/A-15</span></td>
+                        <td class="member-details">Mr. Vinodkumar Arali<br>Professor<br>Aasharam College of Nursing, Kamptee, Nagpur</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>02/19/2023</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">16</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2022/A-16</span></td>
+                        <td class="member-details">Dr. Induja S<br>Principal<br>Meenakshi College of Nursing, Kotakudi, Melur Taluk Madurai</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>03/02/2023</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">17</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2022/A-17</span></td>
+                        <td class="member-details">Dr. Navneet Kumar Sharma<br>Principal<br>Smt. Subhadraaben Navinchand Shah Nursing College, Balasinor, Gujarat</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>16/04/2023</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">18</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2022/A-18</span></td>
+                        <td class="member-details">Dr. Rupa Ashok Verma<br>Professor cum Principal<br>MKSSS Sitabai Nargundkar college of nursing for women, Deonagar, Khamla Road Nagpur</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>18/04/2023</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">19</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2022/A-19</span></td>
+                        <td class="member-details">Dr. Jeyadeepa R<br>Principal<br>IQ City Institute of Nursing Sciences, Durgapur West Bengal</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>19/04/2023</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">20</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2022/A-20</span></td>
+                        <td class="member-details">Dr. Prathima Prakasam<br>Principal<br>Sree Vidyanikethan College of Nursing, Sree Sainath Nagar, Tirupati, AP</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>01/05/2023</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">21</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2022/A-21</span></td>
+                        <td class="member-details">Dr. Sathiyapriya J.<br>Principal<br>T.S. Misra College of Nursing, Amausi, Lucknow, Uttar Pradesh 226008</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>20/05/2023</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">22</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2022/A-22</span></td>
+                        <td class="member-details">Prof. Dr. Jeya Vanitha. A<br>Principal<br>Kirti Institute of Nursing and Paramedical Sciences</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>20/05/2023</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">23</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2022/A-23</span></td>
+                        <td class="member-details">Prabhavanthy Sudesh Kumar<br>Nursing Administrator<br>East Point Hospital, Ashoknagar, Bangalore</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>22/05/2023</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">24</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2022/A-24</span></td>
+                        <td class="member-details">Prof. Dr. U. Jhansi Rani<br>Principal<br>KKC College of Nursing, Puttur, AP</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>16/06/2023</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">25</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2022/A-25</span></td>
+                        <td class="member-details">Dr. Bhuneshwari Dash<br>Assistant Professor<br>Government Nursing College Kabirdham, Chhattisgarh</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>12/08/2023</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">26</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2022/A-26</span></td>
+                        <td class="member-details">Dr. Poonam Sharma<br>Principal<br>Teerthanker Mahaveer College of Nursing, Teerthanker Mahaveer University, Moradabad, Uttar Pradesh, India</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>04/11/2023</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">27</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2022/A-27</span></td>
+                        <td class="member-details">Dr. Jitendra Singh<br>Professor<br>Teerthanker Mahaveer College of Nursing, Teerthanker Mahaveer University, Moradabad, Uttar Pradesh, India</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>04/11/2023</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">28</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2023/A-28</span></td>
+                        <td class="member-details">Dr Ram Kumar Garg<br>Professor<br>Department of Community Health Nursing,<br>Teerthanker Mahaveer College of Nursing,<br>Teerthanker Mahaveer University Moradabad Uttar Pradesh India</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>05.01.2024</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">29</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2024/A-29</span></td>
+                        <td class="member-details">Dr. Velagapudi L Priyanka<br>Associate Professor / Nursing Superintendent<br>Anil Neerukonda Hospital, Opp 3 Polamaba Temple, Tagarapuvalasa</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>18.01.2024</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">30</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2024/A-30</span></td>
+                        <td class="member-details">Dr. (Mrs) Anitha KC<br>Principal<br>Tirumala College Of Nursing, Nizamabad, Warangal, Telangana</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>16.03.2024</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">31</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2024/A-31</span></td>
+                        <td class="member-details">Dr. Vishranti Bhagwan Giri<br>Tutor, College of Nursing<br>Government Medical College Aurangabad, Maharashtra</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>28.04.2024</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">32</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2024/A-32</span></td>
+                        <td class="member-details">Dr.Kodeeswara Prabhu P<br>Principal<br>Vasantrao Naik College Of Nursing, Jalna, Maharashtra</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>28.04.2024</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">33</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2024/A-33</span></td>
+                        <td class="member-details">Dr. Meena Ganapathy<br>Principal<br>Maharshi Karve Stree Shikshan Sansthas Smt. Bakul Tambat Institute of Nursing, Pune</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>27.05.2024</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">34</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2024/A-34</span></td>
+                        <td class="member-details">Dr. Jyoti Bala<br>Professor<br>Faculty of Nursing, Uttar Pradesh University of Medical Sciences, Saifai, Etawah (Uttar Pradesh)</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>12.06.2024</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">35</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2025/A-35</span></td>
+                        <td class="member-details">Mr Mahantesh Mirji<br>Principal<br>Sri Nanak Zeera Saheb College of Nursing, Bidar</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>20.06.2024</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">36</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2025/A-36</span></td>
+                        <td class="member-details">Dr. R. Sharmila<br>Principal<br>Sindhu College of Nursing, Khanamet, Serilingampally, Hyderabad.</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>17.07.2024</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">37</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2025/A-37</span></td>
+                        <td class="member-details">Prof. Vijayasanthi M<br>Principal<br>Rani Durgawati Nursing College (Government College of Nursing), Banda, Uttar Pradesh.</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>22.07.2024</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">38</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2025/A-38</span></td>
+                        <td class="member-details">Dr. Anjani Devi Nelavala<br>Professor<br>Narayana Medical College, Chinthareddy Pallem, Nellore.</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>22/08/2024</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">39</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2025/A-39</span></td>
+                        <td class="member-details">Dr. J. Sathya Shenbega Priya<br>Principal<br>College of Nursing, Kannur Medical College, Anjarakandy, Kannur, Kerala.</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>29/09/2024</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">40</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2025/A-40</span></td>
+                        <td class="member-details">Kolaneedi Anuradha<br>Vice Principal<br>Asram College of Nursing, Malkapuram, Eluru, West Godavari District, Andhra Pradesh</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>06/12/2024</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">41</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2025/A-41</span></td>
+                        <td class="member-details">Dr. Devnarayan<br>Assistant Professor<br>Community Health Nursing, Department of Nursing, Indira Gandhi National Tribal University, Amarkantak, MP</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>05/02/2025</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">42</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2025/A-42</span></td>
+                        <td class="member-details">Dr.Jasmi Johnson<br>Principal/Dean<br>Rama College of Nursing, Rama University, Kanpur</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>28.02.2025</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">43</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2025/A-43</span></td>
+                        <td class="member-details">Dr. Vidhyalakshmi. D<br>Professor cum Principal<br>Satpuda Nursing Institute, Shegaon, Buldhana (Dist), Maharashtra State</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>22/03/2025</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">44</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2025/A-44</span></td>
+                        <td class="member-details">Prof. Mahesh Gadag<br>Professor cum Principal<br>Sana Institute of Health Science, Shantiniketan, Bairidevarkoppa, Hubballi, Karnataka.</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>23.05.2025</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">45</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2025/A-45</span></td>
+                        <td class="member-details">Ms. Kulpooja<br>Associate Professor<br>Faculty of Nursing, SGT University, Gurugram, Haryana, India</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>10/06/2025</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">46</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2025/A-46</span></td>
+                        <td class="member-details">Prof. Latha.P<br>Professor &amp; Principal<br>Rajshree College of Nursing and Paramedical, Bareilly, Uttar Pradesh.</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>01.08.2025</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">47</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2025/A-47</span></td>
+                        <td class="member-details">Dr. K. Kavitha<br>Principal<br>Kamineni Institute of Medical Sciences College of Nursing, Narketpalle, Telangana</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>02/09/2025</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">48</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2025/A-48</span></td>
+                        <td class="member-details">Ms. Sujata Parikh<br>Principal<br>JMD Institute of Nursing, Gandhinagar, Gujarat</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>15.09.2025</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">49</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2025/A-49</span></td>
+                        <td class="member-details">Lt Col (Retd) Dr M Jayalakshmi<br>Professor -PhD Guide<br>PP Savani University, Surat, Gujarat</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>15.09.2025</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">50</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2025/A-50</span></td>
+                        <td class="member-details">Dr. Shyamala Kumar<br>Director<br>Royal Care Hospital, Neelambur, Coimbatore</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>28.11.2025</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">51</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2026/A-51</span></td>
+                        <td class="member-details">Prof. Raksha Kulshreshtha<br>Principal<br>BIMR COLLEGE OF NURSING, GWALIOR, MP</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>08.01.2026</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="text-center font-weight-bold align-middle">52</td>
+                        <td class="align-middle"><span class="ginra-id"><i class="far fa-id-card mr-1"></i>GINRAF/2026/A-52</span></td>
+                        <td class="member-details">Dr. Supriya Chinchpure<br>Professor Cum Principal<br>Dr. Hedgewar College of Nursing, Chhatrapati Sambhajinagar, Maharashtra</td>
+                        <td class="text-center align-middle"><span class="badge-date"><i class="far fa-calendar-check mr-1"></i>11.05.2026</span></td>
+                    </tr>
+                </tbody>
+                        </table>

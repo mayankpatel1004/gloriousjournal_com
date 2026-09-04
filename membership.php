@@ -7,7 +7,7 @@ $date = date('Y-m-d');
 $record = [];
 
 
-$sqlGetRecentRecords = "SELECT * FROM members ORDER BY id DESC LIMIT 0,10";
+$sqlGetRecentRecords = "SELECT * FROM members ORDER BY id DESC";
 $stmt = $conn->prepare($sqlGetRecentRecords);
 $stmt->execute();
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -27,7 +27,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'delete'){
     }
 }
 
-if(isset($_POST['ginera_id']) && $_POST['ginera_id'] != ""){
+if(isset($_POST['ginra_id']) && $_POST['ginra_id'] != ""){
     
     try {
 
@@ -35,11 +35,10 @@ if(isset($_POST['ginera_id']) && $_POST['ginera_id'] != ""){
 
             $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
 
-            $ginera_id = $_POST['ginera_id'];
+            $ginra_id = $_POST['ginra_id'];
             $member_name = $_POST['member_name'];
             $designation = $_POST['designation'];
-            $present_location = $_POST['present_location'];
-            $date_of_joining = $_POST['date_of_joining'];
+            $joining_date = $_POST['joining_date'];
             $membership_type = $_POST['membership_type'];
             $display_order = $_POST['display_order'];
 
@@ -49,11 +48,10 @@ if(isset($_POST['ginera_id']) && $_POST['ginera_id'] != ""){
             // ======================
             if($id > 0){
                 $sql = "UPDATE members SET
-                    ginera_id = :ginera_id,
+                    ginra_id = :ginra_id,
                     member_name = :member_name,
                     designation = :designation,
-                    present_location = :present_location,
-                    date_of_joining = :date_of_joining,
+                    joining_date = :joining_date,
                     membership_type = :membership_type,
                     display_order = :display_order
                     WHERE id = :id";
@@ -68,21 +66,19 @@ if(isset($_POST['ginera_id']) && $_POST['ginera_id'] != ""){
 
                 $sql = "INSERT INTO members
                 (
-                    ginera_id,
+                    ginra_id,
                     member_name,
                     designation,
-                    present_location,
-                    date_of_joining,
+                    joining_date,
                     membership_type,
                     display_order
                 )
                 VALUES
                 (
-                    :ginera_id,
+                    :ginra_id,
                     :member_name,
                     :designation,
-                    :present_location,
-                    :date_of_joining,
+                    :joining_date,
                     :membership_type,
                     :display_order
                 )";
@@ -90,11 +86,10 @@ if(isset($_POST['ginera_id']) && $_POST['ginera_id'] != ""){
             }
 
             // Common bindings
-            $stmt->bindParam(':ginera_id', $ginera_id);
+            $stmt->bindParam(':ginra_id', $ginra_id);
             $stmt->bindParam(':member_name', $member_name);
             $stmt->bindParam(':designation', $designation);
-            $stmt->bindParam(':present_location', $present_location);
-            $stmt->bindParam(':date_of_joining', $date_of_joining);
+            $stmt->bindParam(':joining_date', $joining_date);
             $stmt->bindParam(':membership_type', $membership_type);
             $stmt->bindParam(':display_order', $display_order);
 
@@ -103,11 +98,11 @@ if(isset($_POST['ginera_id']) && $_POST['ginera_id'] != ""){
             // echo "<pre>";
             // echo $sql;
             // print_r([
-            //     'ginera_id' => $ginera_id,
+            //     'ginra_id' => $ginra_id,
             //     'member_name' => $member_name,
             //     'designation' => $designation,
             //     'present_location' => $present_location,
-            //     'date_of_joining' => $date_of_joining,
+            //     'joining_date' => $joining_date,
             //     'membership_type' => $membership_type,
             //     'display_order' => $display_order,
             //     'id' => $id
@@ -128,32 +123,29 @@ if(isset($_POST['ginera_id']) && $_POST['ginera_id'] != ""){
 
 
 $id = 0;
-$ginera_id = "";
+$ginra_id = "";
 $member_name = "";
 $designation = "";
-$present_location = "";
-$date_of_joining = "";
+$joining_date = "";
 $membership_type = "";
 $display_order = "";
 
 if(isset($record) && $record > 0){
     $id = $record['id'];
-    $ginera_id = $record['ginera_id'];
+    $ginra_id = $record['ginra_id'];
     $member_name = $record['member_name'];
     $designation = $record['designation'];
-    $present_location = $record['present_location'];
-    $date_of_joining = $record['date_of_joining'];
+    $joining_date = $record['joining_date'];
     $membership_type = $record['membership_type'];
     $display_order = $record['display_order'];
 }
 
 if(isset($record) && $record > 0){
     $id = $record['id'];
-    $ginera_id = $record['ginera_id'];
+    $ginra_id = $record['ginra_id'];
     $member_name = $record['member_name'];
     $designation = $record['designation'];
-    $present_location = $record['present_location'];
-    $date_of_joining = $record['date_of_joining'];
+    $joining_date = $record['joining_date'];
     $membership_type = $record['membership_type'];
     $display_order = $record['display_order'];
 }
@@ -189,29 +181,25 @@ if(isset($record) && $record > 0){
                                     <td>Ginera ID</td>
                                     <td>
                                         <input type="hidden" class="form-control" name="id" value="<?php echo $id;?>" />
-                                        <input type="text" class="form-control" name="ginera_id" value="<?php echo $ginera_id;?>" />
+                                        <input type="text" class="form-control" name="ginra_id" value="<?php echo $ginra_id;?>" required />
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Member Name</td>
-                                    <td><input type="text" class="form-control" name="member_name" value="<?php echo $member_name;?>" /></td>
+                                    <td><input type="text" class="form-control" name="member_name" value="<?php echo $member_name;?>" required /></td>
                                 </tr>
                                 <tr>
                                     <td>Designation</td>
                                     <td><input type="text" class="form-control" name="designation" value="<?php echo $designation;?>" /></td>
                                 </tr>
                                 <tr>
-                                    <td>Present Location</td>
-                                    <td><input type="text" class="form-control" name="present_location" value="<?php echo $present_location;?>" /></td>
-                                </tr>
-                                <tr>
                                     <td>Date of Joining</td>
-                                    <td><input type="date" class="form-control" name="date_of_joining" value="<?php echo $date_of_joining;?>" /></td>
+                                    <td><input type="date" class="form-control" name="joining_date" value="<?php echo $joining_date;?>" required /></td>
                                 </tr>
                                 <tr>
                                     <td>Membership Type</td>
                                     <td>
-                                        <select name="membership_type" class="form-control">
+                                        <select name="membership_type" class="form-control" required>
                                             <option value="">Select Membership Type</option>
                                             <option value="Faculty" <?php echo ($membership_type == 'Faculty') ? 'selected' : ''; ?>>Faculty</option>
                                             <option value="Achievers" <?php echo ($membership_type == 'Achievers') ? 'selected' : ''; ?>>Achievers</option>
@@ -240,7 +228,6 @@ if(isset($record) && $record > 0){
                             <th>GineraID</th>
                             <th>Member Name</th>
                             <th>Designation</th>
-                            <th>Present Location</th>
                             <th>Date Of Joining</th>
                             <th>Membership Type</th>
                             <th>Order</th>
@@ -250,11 +237,10 @@ if(isset($record) && $record > 0){
                     foreach($result as $data){
                         ?>
                         <tr>
-                            <td><?php echo $data['ginera_id'];?></td>
+                            <td><?php echo $data['ginra_id'];?></td>
                             <td><?php echo $data['member_name'];?></td>
                             <td><?php echo $data['designation'];?></td>
-                            <td><?php echo $data['present_location'];?></td>
-                            <td><?php echo $data['date_of_joining'];?></td>
+                            <td><?php echo $data['joining_date'];?></td>
                             <td><?php echo $data['membership_type'];?></td>
                             <td><?php echo $data['display_order'];?></td>
                             <td>
