@@ -67,6 +67,11 @@ include "connection.php";?>
                                 </div>
                             </div>
                         </div>
+                        <br />
+                        <div class="text-center">
+                            <img src="images/ginra.jpeg" alt="GINRA" />
+                        </div>
+                        <br />
                         <div class="row">
                             <div class="col-12">
                                 

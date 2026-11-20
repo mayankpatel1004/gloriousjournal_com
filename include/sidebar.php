@@ -12,7 +12,7 @@
         </div>
     </div>
 <div class="mt-3 mb-3">
-        <div class="card">
+        <!-- <div class="card">
             <div class="card-body">
                 <h4 class="text-primary">Forms & Formets</h4>
                 <div class="template-demo">
@@ -41,7 +41,7 @@
                     </table>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 
 
